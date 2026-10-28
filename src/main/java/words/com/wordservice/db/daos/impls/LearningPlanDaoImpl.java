@@ -9,7 +9,6 @@ import words.com.wordservice.db.daos.LearningPlanDao;
 import words.com.wordservice.db.entities.LearningPlanEntity;
 import words.com.wordservice.db.searches.LearningPlanSearch;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +18,6 @@ class LearningPlanDaoImpl implements LearningPlanDao {
     @Transactional(readOnly = true)
     public Page<LearningPlanEntity> findBy(LearningPlanSearch search, Pageable pageable) {
         return repository.findAll(search, pageable);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<LearningPlanEntity> findBy(LearningPlanSearch search) {
-        return repository.findAll(search);
     }
 
     @Override

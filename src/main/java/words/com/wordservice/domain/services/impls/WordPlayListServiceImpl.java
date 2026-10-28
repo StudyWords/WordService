@@ -68,7 +68,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toEntity)
                 .collect(Collectors.toList());
-        dao.saveAll(entities);
+        dao.save(entities);
     }
 
     @Override
@@ -76,7 +76,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toUpdateEntity)
                 .collect(Collectors.toList());
-        dao.updateAll(entities);
+        dao.update(entities);
     }
 
     @Override
@@ -136,10 +136,10 @@ class WordPlayListServiceImpl implements WordPlayListService {
                 .map(userWordDomainMapper::toLearningHistoryEntity)
                 .toList();
 
-        dao.saveAll(newPlayLists);
-        userWordDao.saveAll(newUserWords);
-        pinnedWordDao.saveAll(newPinnedWords);
-        learningHistoryDao.saveAll(historyEntities);
+        dao.save(newPlayLists);
+        userWordDao.save(newUserWords);
+        pinnedWordDao.save(newPinnedWords);
+        learningHistoryDao.save(historyEntities);
 
         return newPlayLists.stream()
                 .map(WordPlayListEntity::getId)
@@ -161,7 +161,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
 
     @Override
     public void updateGrades(Collection<PlayListGrade> grades) {
-        learningHistoryDao.saveAll(
+        learningHistoryDao.save(
                 grades.stream().map(wordPlayListDomainMapper::toEntity).toList()
         );
         dao.updateGrades(

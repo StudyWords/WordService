@@ -51,13 +51,13 @@ class UserWordServiceImpl implements UserWordService {
                 .map(UserWordEntity::getWord)
                 .toList();
 
-        wordDao.saveAll(wordEntities);
-        userWordDao.saveAll(userWordEntities);
+        wordDao.save(wordEntities);
+        userWordDao.save(userWordEntities);
 
         var historyEntities = userWords.stream()
                 .map(userWordDomainMapper::toLearningHistoryEntity)
                 .toList();
-        learningHistoryDao.saveAll(historyEntities);
+        learningHistoryDao.save(historyEntities);
     }
 
     @Override
@@ -71,7 +71,7 @@ class UserWordServiceImpl implements UserWordService {
         var historyEntities = userWords.stream()
                 .map(userWordDomainMapper::toLearningHistoryEntity)
                 .toList();
-        learningHistoryDao.saveAll(historyEntities);
+        learningHistoryDao.save(historyEntities);
         var ids = actions.stream().map(UserWordUpsertAction::id).toList();
         if (ids.isEmpty()) {
             return Collections.emptyList();
@@ -91,13 +91,11 @@ class UserWordServiceImpl implements UserWordService {
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("User word not found"));
-        var userWordUpdateAction = userWordDomainMapper.toUserWordUpdateAction(userWord);
-        userWordDao.update(userWordUpdateAction);
+        userWordDao.update(userWordDomainMapper.toEntity(userWordEntity, userWord));
         if (userWordEntity.getWord().getType() == WordType.PUBLIC) {
             return;
         }
-        var wordUpdateAction = userWordDomainMapper.toWordUpdateAction(userWord, userWordEntity.getWord().getId());
-        wordDao.update(wordUpdateAction);
+        wordDao.update(userWordDomainMapper.toEntity(userWordEntity.getWord(), userWord));
     }
 
     @Override

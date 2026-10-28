@@ -7,14 +7,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import words.com.wordservice.db.actions.WordDeleteAction;
-import words.com.wordservice.db.actions.WordUpdateAction;
 import words.com.wordservice.db.daos.WordDao;
 import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.searches.WordSearch;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,20 +26,8 @@ class WordDaoImpl implements WordDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<WordEntity> findBy(WordSearch search) {
-        return repository.findAll(search);
-    }
-
-    @Override
     @Transactional
-    public void save(WordEntity entity) {
-        repository.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public void saveAll(Collection<WordEntity> entities) {
+    public void save(Collection<WordEntity> entities) {
         repository.saveAll(entities);
     }
 
@@ -49,27 +35,6 @@ class WordDaoImpl implements WordDao {
     @Transactional
     public void update(WordEntity entity) {
         repository.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public void update(WordUpdateAction action) {
-        repository.update(
-                action.id(),
-                action.original(),
-                action.lang(),
-                action.translate(),
-                action.translateLang(),
-                action.category(),
-                action.description(),
-                action.cefr()
-        );
-    }
-
-    @Override
-    @Transactional
-    public void updateAll(Collection<WordEntity> entities) {
-        repository.saveAll(entities);
     }
 
     @Override

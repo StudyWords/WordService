@@ -40,12 +40,6 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<WordPlayListEntity> findBy(WordPlayListSearch search) {
-        return repository.findAll(search);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Page<PlayListCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable) {
         return repository.findPlayListsWithCount(
                 CollectionUtils.isEmpty(search.ids()),
@@ -72,45 +66,19 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PlayListCountProjection> findBy(WordPlayListCountSearch search) {
-        return repository.findPlayListsWithCount(
-                CollectionUtils.isEmpty(search.ids()),
-                search.ids(),
-                CollectionUtils.isEmpty(search.userIds()),
-                search.userIds(),
-                search.name(),
-                Range.to(search.count()),
-                Range.from(search.count()),
-                CollectionUtils.isEmpty(search.cefrs()),
-                search.cefrs() != null ? search.cefrs().stream().map(Enum::name).toList() : List.of(),
-                CollectionUtils.isEmpty(search.tags()),
-                search.tags() != null ? search.tags() : Set.of(),
-                search.language() != null ? search.language().name() : null,
-                search.translateLanguage() != null ? search.translateLanguage().name() : null,
-                search.visibility() != null ? search.visibility().name() : null,
-                search.associationId(),
-                CollectionUtils.isEmpty(search.notInIds()),
-                search.notInIds() != null ? search.notInIds() : List.of(),
-                search.hasPin(),
-                Pageable.unpaged()
-        ).getContent();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Optional<PlayListCountProjection> findRandomByUserId(String userId) {
         return repository.findRandomByUserId(userId);
     }
 
     @Override
     @Transactional
-    public void saveAll(Collection<WordPlayListEntity> entities) {
+    public void save(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
     }
 
     @Override
     @Transactional
-    public void updateAll(Collection<WordPlayListEntity> entities) {
+    public void update(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
     }
 

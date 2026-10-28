@@ -17,17 +17,21 @@ public interface PlayListDao {
 
     Page<WordPlayListEntity> findBy(WordPlayListSearch search, Pageable pageable);
 
-    List<WordPlayListEntity> findBy(WordPlayListSearch search);
+    default List<WordPlayListEntity> findBy(WordPlayListSearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
     Page<PlayListCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable);
 
-    List<PlayListCountProjection> findBy(WordPlayListCountSearch search);
+    default List<PlayListCountProjection> findBy(WordPlayListCountSearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
     Optional<PlayListCountProjection> findRandomByUserId(String userId);
 
-    void saveAll(Collection<WordPlayListEntity> entities);
+    void save(Collection<WordPlayListEntity> entities);
 
-    void updateAll(Collection<WordPlayListEntity> entities);
+    void update(Collection<WordPlayListEntity> entities);
 
     int update(PlayListUpdateAction action);
 

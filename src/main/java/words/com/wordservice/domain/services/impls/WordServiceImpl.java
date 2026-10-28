@@ -61,7 +61,7 @@ class WordServiceImpl implements WordService {
                 .filter(it -> !existsWords.contains(it.original().toLowerCase().trim()))
                 .map(wordDomainMapper::toEntity)
                 .toList();
-        wordDao.saveAll(entities);
+        wordDao.save(entities);
     }
 
     @Override
@@ -69,7 +69,7 @@ class WordServiceImpl implements WordService {
         var entities = words.stream()
                 .map(wordDomainMapper::toEntity)
                 .toList();
-        wordDao.saveAll(entities);
+        wordDao.save(entities);
     }
 
     @Override

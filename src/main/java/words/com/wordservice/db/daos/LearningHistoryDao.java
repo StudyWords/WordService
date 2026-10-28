@@ -14,11 +14,17 @@ import java.util.List;
 
 public interface LearningHistoryDao {
 
-    List<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search);
+    default List<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
-    List<LearningHistoryEntity> findBy(LearningHistorySearch search);
+    default List<LearningHistoryEntity> findBy(LearningHistorySearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
-    List<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search);
+    default List<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
     Page<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search, Pageable pageable);
 
@@ -26,7 +32,7 @@ public interface LearningHistoryDao {
 
     Page<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search, Pageable pageable);
 
-    void saveAll(Collection<LearningHistoryEntity> entities);
+    void save(Collection<LearningHistoryEntity> entities);
 
     void delete(LearningHistorySearch search);
 }

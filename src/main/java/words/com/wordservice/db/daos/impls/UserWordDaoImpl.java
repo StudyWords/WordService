@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.UserWordDeleteAction;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
-import words.com.wordservice.db.actions.UserWordUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.entities.UserWordEntity;
@@ -33,20 +32,8 @@ class UserWordDaoImpl implements UserWordDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<UserWordEntity> findBy(UserWordSearch s) {
-        return repository.findAll(s);
-    }
-
-    @Override
     @Transactional
-    public void save(UserWordEntity entity) {
-        repository.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public void saveAll(Collection<UserWordEntity> entities) {
+    public void save(Collection<UserWordEntity> entities) {
         repository.saveAll(entities);
     }
 
@@ -54,12 +41,6 @@ class UserWordDaoImpl implements UserWordDao {
     @Transactional
     public void update(UserWordEntity entity) {
         repository.save(entity);
-    }
-
-    @Override
-    @Transactional
-    public void updateAll(Collection<UserWordEntity> entities) {
-        repository.saveAll(entities);
     }
 
     @Override
@@ -77,17 +58,6 @@ class UserWordDaoImpl implements UserWordDao {
                     action.wordId()
             );
         }
-    }
-
-    @Override
-    @Transactional
-    public void update(UserWordUpdateAction action) {
-        repository.update(
-                action.id(),
-                action.userId(),
-                action.soundFileName(),
-                action.imageFileName()
-        );
     }
 
     @Override

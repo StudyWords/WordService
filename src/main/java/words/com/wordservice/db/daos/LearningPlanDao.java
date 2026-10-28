@@ -11,7 +11,9 @@ public interface LearningPlanDao {
 
     Page<LearningPlanEntity> findBy(LearningPlanSearch search, Pageable pageable);
 
-    List<LearningPlanEntity> findBy(LearningPlanSearch search);
+    default List<LearningPlanEntity> findBy(LearningPlanSearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
     LearningPlanEntity save(LearningPlanEntity entity);
 

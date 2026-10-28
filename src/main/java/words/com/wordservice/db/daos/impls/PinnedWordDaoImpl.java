@@ -10,7 +10,6 @@ import words.com.wordservice.db.entities.PinnedWordEntity;
 import words.com.wordservice.db.searches.PinnedWordSearch;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +22,8 @@ class PinnedWordDaoImpl implements PinnedWordDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PinnedWordEntity> findBy(PinnedWordSearch search) {
-        return repository.findAll(search);
-    }
-
-    @Override
     @Transactional
-    public void saveAll(Collection<PinnedWordEntity> entities) {
+    public void save(Collection<PinnedWordEntity> entities) {
         repository.saveAll(entities);
     }
 

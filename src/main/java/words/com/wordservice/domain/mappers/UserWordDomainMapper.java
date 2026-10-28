@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
-import words.com.wordservice.db.actions.UserWordUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
-import words.com.wordservice.db.actions.WordUpdateAction;
 import words.com.wordservice.db.entities.UserWordEntity;
+import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
@@ -107,25 +106,22 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UserWordUpdateAction toUserWordUpdateAction(UserWordEditDto dto) {
-        return new UserWordUpdateAction(
-                dto.id(),
-                dto.userId(),
-                dto.soundFileName(),
-                dto.imageFileName()
-        );
+    public UserWordEntity toEntity(UserWordEntity old, UserWordEditDto dto) {
+        return old.toBuilder()
+                .customSoundFileName(dto.soundFileName())
+                .customImageFileName(dto.imageFileName())
+                .build();
     }
 
-    public WordUpdateAction toWordUpdateAction(UserWordEditDto dto, String wordId) {
-        return new WordUpdateAction(
-                wordId,
-                dto.original(),
-                dto.lang(),
-                dto.translate(),
-                dto.translateLang(),
-                dto.category(),
-                dto.description(),
-                dto.cefr()
-        );
+    public WordEntity toEntity(WordEntity old, UserWordEditDto dto) {
+        return old.toBuilder()
+                .original(dto.original())
+                .lang(dto.lang())
+                .translate(dto.translate())
+                .translateLang(dto.translateLang())
+                .category(dto.category())
+                .description(dto.description())
+                .cefr(dto.cefr())
+                .build();
     }
 }

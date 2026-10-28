@@ -16,7 +16,7 @@ class PinPlayListServiceImpl implements PinPlayListService {
     @Override
     public void pin(PinOptions options) {
         var entities = pinPlayListDomainMapper.toEntities(options);
-        pinnedWordDao.saveAll(entities);
+        pinnedWordDao.save(entities);
     }
 
     @Override

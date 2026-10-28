@@ -12,9 +12,11 @@ public interface PinnedWordDao {
 
     Page<PinnedWordEntity> findBy(PinnedWordSearch search, Pageable pageable);
 
-    List<PinnedWordEntity> findBy(PinnedWordSearch search);
+    default List<PinnedWordEntity> findBy(PinnedWordSearch search) {
+        return findBy(search, Pageable.unpaged()).getContent();
+    }
 
-    void saveAll(Collection<PinnedWordEntity> entities);
+    void save(Collection<PinnedWordEntity> entities);
 
     void delete(PinnedWordSearch search);
 }

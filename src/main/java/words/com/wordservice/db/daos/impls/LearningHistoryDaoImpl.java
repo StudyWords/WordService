@@ -16,30 +16,11 @@ import words.com.wordservice.db.searches.history.StatisticsLearningHistorySearch
 import words.com.wordservice.utils.Range;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 class LearningHistoryDaoImpl implements LearningHistoryDao {
     private final LearningHistoryRepository repository;
-    @Override
-    @Transactional(readOnly = true)
-    public List<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search) {
-        return findBy(search, Pageable.unpaged()).getContent();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<LearningHistoryEntity> findBy(LearningHistorySearch search) {
-        return repository.findAll(search);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search) {
-        return findBy(search, Pageable.unpaged()).getContent();
-    }
-
     @Override
     @Transactional(readOnly = true)
     public Page<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search, Pageable pageable) {
@@ -68,7 +49,7 @@ class LearningHistoryDaoImpl implements LearningHistoryDao {
 
     @Override
     @Transactional
-    public void saveAll(Collection<LearningHistoryEntity> entities) {
+    public void save(Collection<LearningHistoryEntity> entities) {
         repository.saveAll(entities);
     }
 
