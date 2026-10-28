@@ -5,17 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.db.searches.CountLearningHistorySearch;
 import words.com.wordservice.features.learninghistory.db.searches.LearningHistorySearch;
 import words.com.wordservice.features.learninghistory.db.searches.StatisticsLearningHistorySearch;
-import words.com.wordservice.features.learninghistory.main.models.CountLearningHistoryFilter;
 import words.com.wordservice.features.learninghistory.main.models.LearningHistoryFilter;
 import words.com.wordservice.features.learninghistory.main.models.StatisticsLearningHistoryFilter;
-import words.com.wordservice.features.shared.utils.ModelUtils;
-import words.com.wordservice.features.shared.utils.Range;
-
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
 @Component
 public class LearningHistorySearchMapper {
@@ -40,21 +33,7 @@ public class LearningHistorySearchMapper {
     public StatisticsLearningHistorySearch toSearch(StatisticsLearningHistoryFilter filter) {
         return StatisticsLearningHistorySearch.builder()
                 .userIds(filter.userIds())
-                .date(toLocalDateRange(filter.date()))
+                .date(filter.date())
                 .build();
-    }
-
-    private Range<LocalDate> toLocalDateRange(Range<OffsetDateTime> range) {
-        if (range == null) {
-            return null;
-        }
-        return Range.<LocalDate>builder()
-                .from(range.getFrom() != null ? range.getFrom().toLocalDate() : null)
-                .to(range.getTo() != null ? range.getTo().toLocalDate() : null)
-                .build();
-    }
-
-    public CountLearningHistorySearch toSearch(CountLearningHistoryFilter filter) {
-        return ModelUtils.convert(filter, CountLearningHistorySearch.class);
     }
 }

@@ -3,10 +3,10 @@ package words.com.wordservice.features.learninghistory.main.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.db.projections.CountLearningHistoryProjection;
+import words.com.wordservice.features.learninghistory.db.projections.LearningProgressProjection;
 import words.com.wordservice.features.learninghistory.db.projections.StatisticsLearningHistoryProjection;
-import words.com.wordservice.features.learninghistory.main.models.CountLearningHistory;
 import words.com.wordservice.features.learninghistory.main.models.LearningHistory;
+import words.com.wordservice.features.learninghistory.main.models.LearningProgress;
 import words.com.wordservice.features.learninghistory.main.models.StatisticsLearningHistory;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.shared.main.enums.Language;
@@ -59,10 +59,14 @@ public class LearningHistoryDomainMapper {
         );
     }
 
-    public CountLearningHistory toModel(CountLearningHistoryProjection entity) {
-        return new CountLearningHistory(
-                entity.getCount(),
-                entity.getType()
+    public LearningProgress toModel(LearningProgressProjection projection) {
+        return new LearningProgress(
+                projection.getCreatedTodayByPlan(),
+                projection.getCreatedTotal(),
+                projection.getCreatedTotalByPlan(),
+                projection.getRepeatedNewTodayByPlan(),
+                projection.getRepeatedTotal(),
+                projection.getRepeatedTotalByPlan()
         );
     }
 }

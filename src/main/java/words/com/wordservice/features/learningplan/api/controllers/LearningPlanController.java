@@ -1,6 +1,8 @@
 package words.com.wordservice.features.learningplan.api.controllers;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,8 +12,10 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.features.learningplan.api.mappers.LearningPlanRequestMapper;
 import words.com.wordservice.features.learningplan.api.mappers.LearningPlanRespondMapper;
 import words.com.wordservice.features.learningplan.api.requests.LearningPlanRequest;
+import words.com.wordservice.features.learningplan.api.responds.LearningPlanDetailsRespond;
 import words.com.wordservice.features.learningplan.api.responds.LearningPlanRespond;
 import words.com.wordservice.features.learningplan.main.services.LearningPlanService;
+import words.com.wordservice.features.learningplan.main.usecases.FindLearningPlanDetailsUseCase;
 
 @ResponseBody
 @RestController
@@ -19,13 +23,16 @@ import words.com.wordservice.features.learningplan.main.services.LearningPlanSer
 @RequestMapping("/learning-plan")
 public class LearningPlanController {
     private final LearningPlanService learningPlanService;
+    private final FindLearningPlanDetailsUseCase findLearningPlanDetailsUseCase;
     private final LearningPlanRequestMapper requestMapper;
     private final LearningPlanRespondMapper respondMapper;
 
     @Nullable
     @GetMapping
-    LearningPlanRespond getLearningPlan(@AuthenticationPrincipal User user) {
-        return learningPlanService.findByUserId(user.id())
+    LearningPlanDetailsRespond getLearningPlan(
+            @AuthenticationPrincipal User user,
+            @RequestParam(defaultValue = "0") @Min(-840) @Max(840) int utcOffsetMinutes) {
+        return findLearningPlanDetailsUseCase.execute(user.id(), utcOffsetMinutes)
                 .map(respondMapper::toRespond)
                 .orElse(null);
     }

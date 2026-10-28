@@ -83,6 +83,7 @@ public record WordSearch(
         }
 
         if (hasUserId()) {
+            assert query != null;
             Subquery<String> sub = query.subquery(String.class);
             Root<UserWordEntity> uw = sub.from(UserWordEntity.class);
             sub.select(uw.get("word").get("id"))

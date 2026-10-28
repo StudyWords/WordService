@@ -1,10 +1,8 @@
 package words.com.wordservice.features.learninghistory.api.mappers;
 
 import org.springframework.stereotype.Component;
-import words.com.wordservice.features.learninghistory.api.responds.CountLearningHistoryRespond;
 import words.com.wordservice.features.learninghistory.api.responds.LearningHistoryRespond;
 import words.com.wordservice.features.learninghistory.api.responds.StatisticsLearningHistoryRespond;
-import words.com.wordservice.features.learninghistory.main.models.CountLearningHistory;
 import words.com.wordservice.features.learninghistory.main.models.LearningHistory;
 import words.com.wordservice.features.learninghistory.main.models.StatisticsLearningHistory;
 import words.com.wordservice.features.shared.utils.ModelUtils;
@@ -20,7 +18,4 @@ public class LearningHistoryRespondMapper {
         return ModelUtils.convert(model, StatisticsLearningHistoryRespond.class);
     }
 
-    public CountLearningHistoryRespond toRespond(CountLearningHistory model) {
-        return ModelUtils.convert(model, CountLearningHistoryRespond.class);
-    }
 }

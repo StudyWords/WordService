@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.features.learninghistory.api.mappers.LearningHistoryRequestMapper;
 import words.com.wordservice.features.learninghistory.api.mappers.LearningHistoryRespondMapper;
-import words.com.wordservice.features.learninghistory.api.requests.CountLearningHistoryFilterRequest;
 import words.com.wordservice.features.learninghistory.api.requests.LearningHistoryFilterRequest;
 import words.com.wordservice.features.learninghistory.api.requests.StatisticsLearningHistoryFilterRequest;
-import words.com.wordservice.features.learninghistory.api.responds.CountLearningHistoryRespond;
 import words.com.wordservice.features.learninghistory.api.responds.LearningHistoryRespond;
 import words.com.wordservice.features.learninghistory.api.responds.StatisticsLearningHistoryRespond;
 import words.com.wordservice.features.learninghistory.main.services.LearningHistoryService;
@@ -42,12 +40,4 @@ public class LearningHistoryController {
         return new PagedModel<>(paged);
     }
 
-    @GetMapping("/count")
-    public PagedModel<CountLearningHistoryRespond> getCountLearningHistory(
-            @AuthenticationPrincipal User user,
-            @ModelAttribute CountLearningHistoryFilterRequest request) {
-        var filter = requestMapper.toModel(user, request);
-        var paged = learningHistoryService.findBy(filter).map(respondMapper::toRespond);
-        return new PagedModel<>(paged);
-    }
 }

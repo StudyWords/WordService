@@ -6,42 +6,57 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.db.projections.CountLearningHistoryProjection;
+import words.com.wordservice.features.learninghistory.db.projections.LearningProgressProjection;
 import words.com.wordservice.features.learninghistory.db.projections.StatisticsLearningHistoryProjection;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEntity, String>,
         JpaSpecificationExecutor<LearningHistoryEntity> {
 
     String SELECT_STATISTICS_LEARNING_HISTORY =
-            "SELECT count(lh.id) as count, sum(lh.grade) as grades, lh.type, lh.date from learning_history lh" +
+            "SELECT count(lh.id) as count, sum(lh.grade) as grades, lh.type," +
+                    " CAST(lh.created_at AT TIME ZONE 'UTC' AS DATE) as date from learning_history lh" +
                     " WHERE " +
                     " (:isEmptyUserIds OR lh.user_id in(:userIds)) " +
-                    " AND (CAST(:startDate AS DATE) IS NULL OR lh.date >= :startDate)" +
-                    " AND (CAST(:endDate AS DATE) IS NULL OR lh.date <= :endDate)" +
-                    " group by lh.date, lh.type" +
-                    " order by lh.date, lh.type ";
-
-    String SELECT_COUNT_LEARNING_HISTORY =
-            "SELECT count(lh.id) as count, lh.type from learning_history lh" +
-                    " WHERE " +
-                    " (:isEmptyUserIds OR lh.user_id in(:userIds)) " +
-                    " group by lh.type";
+                    " AND (CAST(:startDate AS TIMESTAMPTZ) IS NULL OR lh.created_at >= :startDate)" +
+                    " AND (CAST(:endDate AS TIMESTAMPTZ) IS NULL OR lh.created_at <= :endDate)" +
+                    " group by CAST(lh.created_at AT TIME ZONE 'UTC' AS DATE), lh.type" +
+                    " order by date, lh.type ";
+    String SELECT_PROGRESS = """
+            SELECT
+                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND w.cefr = :cefr
+                    AND lh.created_at >= :dayStart AND lh.created_at < :dayEnd) AS createdTodayByPlan,
+                COUNT(*) FILTER (WHERE lh.type = 'CREATE') AS createdTotal,
+                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND w.cefr = :cefr) AS createdTotalByPlan,
+                COUNT(DISTINCT lh.word_id) FILTER (WHERE lh.type = 'UPDATE' AND w.cefr = :cefr
+                    AND lh.created_at >= :dayStart AND lh.created_at < :dayEnd
+                    AND lh.word_id IN (
+                        SELECT c.word_id FROM learning_history c
+                        WHERE c.user_id = :userId AND c.type = 'CREATE'
+                            AND c.created_at >= :dayStart AND c.created_at < :dayEnd
+                    )) AS repeatedNewTodayByPlan,
+                COUNT(*) FILTER (WHERE lh.type = 'UPDATE') AS repeatedTotal,
+                COUNT(*) FILTER (WHERE lh.type = 'UPDATE' AND w.cefr = :cefr) AS repeatedTotalByPlan
+            FROM learning_history lh
+            LEFT JOIN words w ON w.id = lh.word_id
+            WHERE lh.user_id = :userId
+            """;
 
     @Query(value = SELECT_STATISTICS_LEARNING_HISTORY, nativeQuery = true)
     Page<StatisticsLearningHistoryProjection> findStatisticsBy(
             boolean isEmptyUserIds,
             java.util.Collection<String> userIds,
-            LocalDate startDate,
-            LocalDate endDate,
+            OffsetDateTime startDate,
+            OffsetDateTime endDate,
             Pageable pageable
     );
 
-    @Query(value = SELECT_COUNT_LEARNING_HISTORY, nativeQuery = true)
-    Page<CountLearningHistoryProjection> findCountBy(
-            boolean isEmptyUserIds,
-            java.util.Collection<String> userIds,
-            Pageable pageable
+    @Query(value = SELECT_PROGRESS, nativeQuery = true)
+    LearningProgressProjection findProgressBy(
+            String userId,
+            String cefr,
+            OffsetDateTime dayStart,
+            OffsetDateTime dayEnd
     );
 }

@@ -164,10 +164,10 @@ public class WordPlayListDomainMapper {
         );
     }
 
-    public LearningHistoryEvent.Entry toHistoryEntry(PlayListGrade model) {
+    public LearningHistoryEvent.Entry toHistoryEntry(PlayListGrade model, String wordId) {
         return new LearningHistoryEvent.Entry(
                 model.userId(),
-                model.wordId(),
+                wordId,
                 LearningHistoryType.UPDATE,
                 model.wordGrade(),
                 OffsetDateTime.now(ZoneId.of("UTC"))

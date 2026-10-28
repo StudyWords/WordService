@@ -19,6 +19,10 @@ public final class ModelUtils {
         return OBJECT_MAPPER.convertValue(from, type);
     }
 
+    public static <T> T read(String json, Class<T> type) throws JsonProcessingException {
+        return OBJECT_MAPPER.readValue(json, type);
+    }
+
     public static <E> TreeSet<E> readTreeSet(String json, Class<E> elementType) throws JsonProcessingException {
         return OBJECT_MAPPER.readValue(
                 json,

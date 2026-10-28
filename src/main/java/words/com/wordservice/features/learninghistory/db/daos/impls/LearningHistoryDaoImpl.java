@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.features.learninghistory.db.daos.LearningHistoryDao;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.db.projections.CountLearningHistoryProjection;
+import words.com.wordservice.features.learninghistory.db.projections.LearningProgressProjection;
 import words.com.wordservice.features.learninghistory.db.projections.StatisticsLearningHistoryProjection;
-import words.com.wordservice.features.learninghistory.db.searches.CountLearningHistorySearch;
 import words.com.wordservice.features.learninghistory.db.searches.LearningHistorySearch;
+import words.com.wordservice.features.learninghistory.db.searches.LearningProgressSearch;
 import words.com.wordservice.features.learninghistory.db.searches.StatisticsLearningHistorySearch;
 import words.com.wordservice.features.shared.utils.Range;
 
@@ -40,11 +40,13 @@ class LearningHistoryDaoImpl implements LearningHistoryDao {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search, Pageable pageable) {
-        return repository.findCountBy(
-                CollectionUtils.isEmpty(search.userIds()),
-                CollectionUtils.isEmpty(search.userIds()) ? null : search.userIds(),
-                pageable);
+    public LearningProgressProjection findProgress(LearningProgressSearch search) {
+        return repository.findProgressBy(
+                search.userId(),
+                search.cefr().name(),
+                search.dayStart(),
+                search.dayEnd()
+        );
     }
 
     @Override

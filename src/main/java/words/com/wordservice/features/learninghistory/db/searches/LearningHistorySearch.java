@@ -12,7 +12,7 @@ import org.springframework.util.CollectionUtils;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
 import words.com.wordservice.features.shared.utils.Range;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,7 +20,7 @@ import java.util.Collection;
 public record LearningHistorySearch(
         @Singular(ignoreNullCollections = true) Collection<String> userIds,
         @Singular(ignoreNullCollections = true) Collection<String> wordIds,
-        Range<LocalDate> date
+        Range<OffsetDateTime> date
 ) implements Specification<LearningHistoryEntity> {
 
     @Override

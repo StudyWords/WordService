@@ -2,6 +2,7 @@ package words.com.wordservice.features.learninghistory.main.services;
 
 import org.springframework.data.domain.Page;
 import words.com.wordservice.features.learninghistory.main.models.*;
+import words.com.wordservice.features.shared.main.enums.CEFR;
 
 public interface LearningHistoryService {
 
@@ -9,5 +10,5 @@ public interface LearningHistoryService {
 
     Page<StatisticsLearningHistory> findBy(StatisticsLearningHistoryFilter filter);
 
-    Page<CountLearningHistory> findBy(CountLearningHistoryFilter filter);
+    LearningProgress findProgress(String userId, CEFR cefr, int utcOffsetMinutes);
 }

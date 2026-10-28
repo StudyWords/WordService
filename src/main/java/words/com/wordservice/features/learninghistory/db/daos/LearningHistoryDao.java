@@ -3,10 +3,10 @@ package words.com.wordservice.features.learninghistory.db.daos;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.db.projections.CountLearningHistoryProjection;
+import words.com.wordservice.features.learninghistory.db.projections.LearningProgressProjection;
 import words.com.wordservice.features.learninghistory.db.projections.StatisticsLearningHistoryProjection;
-import words.com.wordservice.features.learninghistory.db.searches.CountLearningHistorySearch;
 import words.com.wordservice.features.learninghistory.db.searches.LearningHistorySearch;
+import words.com.wordservice.features.learninghistory.db.searches.LearningProgressSearch;
 import words.com.wordservice.features.learninghistory.db.searches.StatisticsLearningHistorySearch;
 
 import java.util.Collection;
@@ -22,15 +22,11 @@ public interface LearningHistoryDao {
         return findBy(search, Pageable.unpaged()).getContent();
     }
 
-    default List<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search) {
-        return findBy(search, Pageable.unpaged()).getContent();
-    }
-
     Page<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search, Pageable pageable);
 
     Page<LearningHistoryEntity> findBy(LearningHistorySearch search, Pageable pageable);
 
-    Page<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search, Pageable pageable);
+    LearningProgressProjection findProgress(LearningProgressSearch search);
 
     void save(Collection<LearningHistoryEntity> entities);
 

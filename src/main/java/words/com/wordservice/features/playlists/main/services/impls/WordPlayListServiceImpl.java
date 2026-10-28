@@ -17,6 +17,7 @@ import words.com.wordservice.features.playlists.main.mappers.WordPlayListSearchM
 import words.com.wordservice.features.playlists.main.models.*;
 import words.com.wordservice.features.playlists.main.services.WordPlayListService;
 import words.com.wordservice.features.shared.main.events.LearningHistoryEvent;
+import words.com.wordservice.features.words.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.features.words.db.daos.PinnedWordDao;
 import words.com.wordservice.features.words.db.daos.UserWordDao;
 import words.com.wordservice.features.words.db.entities.PinnedWordEntity;
@@ -165,11 +166,26 @@ class WordPlayListServiceImpl implements WordPlayListService {
     @Override
     @Transactional
     public void updateGrades(Collection<PlayListGrade> grades) {
-        var historyEntries = grades.stream().map(wordPlayListDomainMapper::toHistoryEntry).toList();
-        eventPublisher.publishEvent(new LearningHistoryEvent(historyEntries));
         var actions = grades.stream().map(wordPlayListDomainMapper::toAction).toList();
         var updated = userWordDao.addGrades(actions);
         pinnedWordDao.addGrades(updated);
+        publishRepetitions(grades, updated);
+    }
+
+    private void publishRepetitions(Collection<PlayListGrade> grades, List<UserWordGradeUpdateAction> updated) {
+        if (updated.isEmpty()) {
+            return;
+        }
+        var search = UserWordSearch.builder()
+                .userWordIds(updated.stream().map(UserWordGradeUpdateAction::userWordId).collect(Collectors.toSet()))
+                .build();
+        var wordIdByUserWordId = userWordDao.findBy(search).stream()
+                .collect(Collectors.toMap(UserWordEntity::getId, it -> it.getWord().getId(), (a, b) -> b));
+        var entries = grades.stream()
+                .filter(grade -> wordIdByUserWordId.containsKey(grade.wordId()))
+                .map(grade -> wordPlayListDomainMapper.toHistoryEntry(grade, wordIdByUserWordId.get(grade.wordId())))
+                .toList();
+        eventPublisher.publishEvent(new LearningHistoryEvent(entries));
     }
 
     @Override

@@ -6,21 +6,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import words.com.wordservice.features.learninghistory.db.daos.LearningHistoryDao;
 import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
+import words.com.wordservice.features.learninghistory.db.searches.LearningProgressSearch;
 import words.com.wordservice.features.learninghistory.main.mappers.LearningHistoryDomainMapper;
 import words.com.wordservice.features.learninghistory.main.mappers.LearningHistorySearchMapper;
 import words.com.wordservice.features.learninghistory.main.models.*;
 import words.com.wordservice.features.learninghistory.main.services.LearningHistoryService;
+import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.words.db.daos.UserWordDao;
 import words.com.wordservice.features.words.db.entities.UserWordEntity;
 import words.com.wordservice.features.words.db.searches.Operations;
 import words.com.wordservice.features.words.db.searches.UserWordSearch;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 class LearningHistoryServiceImpl implements LearningHistoryService {
+    private static final int SECONDS_IN_MINUTE = 60;
+
     private final LearningHistoryDomainMapper learningHistoryMapper;
     private final LearningHistoryDao learningHistoryDao;
     private final UserWordDao userWordDao;
@@ -56,8 +62,15 @@ class LearningHistoryServiceImpl implements LearningHistoryService {
     }
 
     @Override
-    public Page<CountLearningHistory> findBy(CountLearningHistoryFilter filter) {
-        return learningHistoryDao.findBy(learningHistorySearchMapper.toSearch(filter), Pageable.unpaged())
-                .map(learningHistoryMapper::toModel);
+    public LearningProgress findProgress(String userId, CEFR cefr, int utcOffsetMinutes) {
+        var offset = ZoneOffset.ofTotalSeconds(utcOffsetMinutes * SECONDS_IN_MINUTE);
+        var dayStart = OffsetDateTime.now(offset).toLocalDate().atStartOfDay().atOffset(offset);
+        var search = LearningProgressSearch.builder()
+                .userId(userId)
+                .cefr(cefr)
+                .dayStart(dayStart)
+                .dayEnd(dayStart.plusDays(1))
+                .build();
+        return learningHistoryMapper.toModel(learningHistoryDao.findProgress(search));
     }
 }
