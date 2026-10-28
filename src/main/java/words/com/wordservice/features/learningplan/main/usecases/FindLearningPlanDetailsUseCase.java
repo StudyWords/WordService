@@ -18,7 +18,7 @@ public class FindLearningPlanDetailsUseCase {
         return learningPlanService.findByUserId(userId)
                 .map(plan -> new LearningPlanDetails(
                         plan,
-                        learningHistoryService.findProgress(userId, plan.cefr(), utcOffsetMinutes)
+                        learningHistoryService.findProgress(userId, plan.cefrs(), utcOffsetMinutes)
                 ));
     }
 }

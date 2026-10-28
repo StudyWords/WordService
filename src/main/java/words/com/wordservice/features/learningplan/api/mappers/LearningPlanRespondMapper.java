@@ -15,7 +15,7 @@ public class LearningPlanRespondMapper {
                 model.wordsPerDay(),
                 model.nativeLang(),
                 model.learningLang(),
-                model.cefr(),
+                model.cefrs(),
                 model.createdAt(),
                 model.updatedAt()
         );
@@ -28,7 +28,7 @@ public class LearningPlanRespondMapper {
                 plan.wordsPerDay(),
                 plan.nativeLang(),
                 plan.learningLang(),
-                plan.cefr(),
+                plan.cefrs(),
                 plan.createdAt(),
                 plan.updatedAt(),
                 new LearningProgressRespond(

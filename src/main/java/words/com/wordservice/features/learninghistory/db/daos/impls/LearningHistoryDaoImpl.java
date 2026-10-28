@@ -16,10 +16,14 @@ import words.com.wordservice.features.learninghistory.db.searches.StatisticsLear
 import words.com.wordservice.features.shared.utils.Range;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 class LearningHistoryDaoImpl implements LearningHistoryDao {
+    // an IN list must not be empty; the query ignores it when hasCefrs is false
+    private static final String NO_CEFR = "";
+
     private final LearningHistoryRepository repository;
     @Override
     @Transactional(readOnly = true)
@@ -41,9 +45,11 @@ class LearningHistoryDaoImpl implements LearningHistoryDao {
     @Override
     @Transactional(readOnly = true)
     public LearningProgressProjection findProgress(LearningProgressSearch search) {
+        var cefrs = search.cefrs().stream().map(Enum::name).toList();
         return repository.findProgressBy(
                 search.userId(),
-                search.cefr().name(),
+                !cefrs.isEmpty(),
+                cefrs.isEmpty() ? List.of(NO_CEFR) : cefrs,
                 search.dayStart(),
                 search.dayEnd()
         );

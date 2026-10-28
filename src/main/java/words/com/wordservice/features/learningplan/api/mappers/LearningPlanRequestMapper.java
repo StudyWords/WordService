@@ -15,7 +15,7 @@ public class LearningPlanRequestMapper {
                 request.wordsPerDay(),
                 request.nativeLang(),
                 request.learningLang(),
-                request.cefr(),
+                request.cefrs(),
                 OffsetDateTime.now(),
                 OffsetDateTime.now()
         );

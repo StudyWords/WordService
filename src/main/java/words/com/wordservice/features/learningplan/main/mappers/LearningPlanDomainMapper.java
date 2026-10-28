@@ -5,6 +5,8 @@ import words.com.wordservice.features.learningplan.db.entities.LearningPlanEntit
 import words.com.wordservice.features.learningplan.main.models.LearningPlan;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Component
 public class LearningPlanDomainMapper {
@@ -15,7 +17,7 @@ public class LearningPlanDomainMapper {
                 model.wordsPerDay(),
                 model.nativeLang(),
                 model.learningLang(),
-                model.cefr(),
+                model.cefrs() == null ? new TreeSet<>() : new TreeSet<>(model.cefrs()),
                 model.createdAt(),
                 OffsetDateTime.now()
         );
@@ -27,7 +29,7 @@ public class LearningPlanDomainMapper {
                 entity.getWordsPerDay(),
                 entity.getNativeLang(),
                 entity.getLearningLang(),
-                entity.getCefr(),
+                entity.getCefrs() == null ? Set.of() : entity.getCefrs(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

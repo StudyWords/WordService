@@ -10,6 +10,7 @@ import words.com.wordservice.features.learninghistory.db.projections.LearningPro
 import words.com.wordservice.features.learninghistory.db.projections.StatisticsLearningHistoryProjection;
 
 import java.time.OffsetDateTime;
+import java.util.Collection;
 
 interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEntity, String>,
         JpaSpecificationExecutor<LearningHistoryEntity> {
@@ -25,11 +26,11 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
                     " order by date, lh.type ";
     String SELECT_PROGRESS = """
             SELECT
-                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND w.cefr = :cefr
+                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND (:hasCefrs AND w.cefr IN (:cefrs))
                     AND lh.created_at >= :dayStart AND lh.created_at < :dayEnd) AS createdTodayByPlan,
                 COUNT(*) FILTER (WHERE lh.type = 'CREATE') AS createdTotal,
-                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND w.cefr = :cefr) AS createdTotalByPlan,
-                COUNT(DISTINCT lh.word_id) FILTER (WHERE lh.type = 'UPDATE' AND w.cefr = :cefr
+                COUNT(*) FILTER (WHERE lh.type = 'CREATE' AND (:hasCefrs AND w.cefr IN (:cefrs))) AS createdTotalByPlan,
+                COUNT(DISTINCT lh.word_id) FILTER (WHERE lh.type = 'UPDATE' AND (:hasCefrs AND w.cefr IN (:cefrs))
                     AND lh.created_at >= :dayStart AND lh.created_at < :dayEnd
                     AND lh.word_id IN (
                         SELECT c.word_id FROM learning_history c
@@ -37,7 +38,7 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
                             AND c.created_at >= :dayStart AND c.created_at < :dayEnd
                     )) AS repeatedNewTodayByPlan,
                 COUNT(*) FILTER (WHERE lh.type = 'UPDATE') AS repeatedTotal,
-                COUNT(*) FILTER (WHERE lh.type = 'UPDATE' AND w.cefr = :cefr) AS repeatedTotalByPlan
+                COUNT(*) FILTER (WHERE lh.type = 'UPDATE' AND (:hasCefrs AND w.cefr IN (:cefrs))) AS repeatedTotalByPlan
             FROM learning_history lh
             LEFT JOIN words w ON w.id = lh.word_id
             WHERE lh.user_id = :userId
@@ -55,7 +56,8 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
     @Query(value = SELECT_PROGRESS, nativeQuery = true)
     LearningProgressProjection findProgressBy(
             String userId,
-            String cefr,
+            boolean hasCefrs,
+            Collection<String> cefrs,
             OffsetDateTime dayStart,
             OffsetDateTime dayEnd
     );

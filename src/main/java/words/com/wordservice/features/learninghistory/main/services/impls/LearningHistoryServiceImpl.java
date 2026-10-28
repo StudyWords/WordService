@@ -20,6 +20,7 @@ import words.com.wordservice.features.words.db.searches.UserWordSearch;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,12 +63,12 @@ class LearningHistoryServiceImpl implements LearningHistoryService {
     }
 
     @Override
-    public LearningProgress findProgress(String userId, CEFR cefr, int utcOffsetMinutes) {
+    public LearningProgress findProgress(String userId, Set<CEFR> cefrs, int utcOffsetMinutes) {
         var offset = ZoneOffset.ofTotalSeconds(utcOffsetMinutes * SECONDS_IN_MINUTE);
         var dayStart = OffsetDateTime.now(offset).toLocalDate().atStartOfDay().atOffset(offset);
         var search = LearningProgressSearch.builder()
                 .userId(userId)
-                .cefr(cefr)
+                .cefrs(cefrs)
                 .dayStart(dayStart)
                 .dayEnd(dayStart.plusDays(1))
                 .build();

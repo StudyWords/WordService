@@ -2,11 +2,14 @@ package words.com.wordservice.features.learningplan.api.requests;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import words.com.wordservice.features.shared.api.requests.LanguagesGetter;
 import words.com.wordservice.features.shared.api.valid.annotation.DifferentLanguage;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.shared.main.enums.Language;
+
+import java.util.Set;
 
 @DifferentLanguage(message = "Native language and learning language should be different")
 public record LearningPlanRequest(
@@ -17,8 +20,8 @@ public record LearningPlanRequest(
         Language nativeLang,
         @NotNull(message = "Learning language should not be null")
         Language learningLang,
-        @NotNull(message = "CEFR level should not be null")
-        CEFR cefr
+        @NotEmpty(message = "CEFR levels should not be empty")
+        Set<CEFR> cefrs
 ) implements LanguagesGetter {
     @Override
     public Language getLang() {

@@ -3,10 +3,12 @@ package words.com.wordservice.features.learningplan.db.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import words.com.wordservice.features.shared.db.converters.CefrTreeSetConverter;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.shared.main.enums.Language;
 
 import java.time.OffsetDateTime;
+import java.util.TreeSet;
 
 @Getter
 @Setter
@@ -25,8 +27,9 @@ public class LearningPlanEntity {
     private Language nativeLang;
     @Enumerated(EnumType.STRING)
     private Language learningLang;
-    @Enumerated(EnumType.STRING)
-    private CEFR cefr;
+    @Convert(converter = CefrTreeSetConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private TreeSet<CEFR> cefrs;
     @Column(updatable = false)
     @CreatedDate
     private OffsetDateTime createdAt;

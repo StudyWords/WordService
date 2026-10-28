@@ -4,11 +4,12 @@ import lombok.Builder;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Builder
 public record LearningProgressSearch(
         String userId,
-        CEFR cefr,
+        Set<CEFR> cefrs,
         OffsetDateTime dayStart,
         OffsetDateTime dayEnd
 ) {
