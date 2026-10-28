@@ -2,7 +2,7 @@ package words.com.wordservice.db.daos;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.entities.LearningHistoryEntity;
 import words.com.wordservice.db.projections.CountLearningHistoryProjection;
 import words.com.wordservice.db.projections.StatisticsLearningHistoryProjection;
 import words.com.wordservice.db.searches.history.CountLearningHistorySearch;

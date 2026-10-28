@@ -1,4 +1,4 @@
-package words.com.wordservice.db.entities.history;
+package words.com.wordservice.db.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

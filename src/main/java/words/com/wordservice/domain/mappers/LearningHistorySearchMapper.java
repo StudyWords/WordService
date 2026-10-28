@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.entities.LearningHistoryEntity;
 import words.com.wordservice.db.searches.history.CountLearningHistorySearch;
 import words.com.wordservice.db.searches.history.LearningHistorySearch;
 import words.com.wordservice.db.searches.history.StatisticsLearningHistorySearch;

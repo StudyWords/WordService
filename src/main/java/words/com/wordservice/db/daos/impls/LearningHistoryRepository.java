@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
-import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.entities.LearningHistoryEntity;
 import words.com.wordservice.db.projections.CountLearningHistoryProjection;
 import words.com.wordservice.db.projections.StatisticsLearningHistoryProjection;
 

@@ -9,7 +9,7 @@ import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
-import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.entities.LearningHistoryEntity;
 import words.com.wordservice.utils.Range;
 
 import java.time.LocalDate;

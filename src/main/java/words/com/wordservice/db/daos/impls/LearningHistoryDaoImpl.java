@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.daos.LearningHistoryDao;
-import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.entities.LearningHistoryEntity;
 import words.com.wordservice.db.projections.CountLearningHistoryProjection;
 import words.com.wordservice.db.projections.StatisticsLearningHistoryProjection;
 import words.com.wordservice.db.searches.history.CountLearningHistorySearch;

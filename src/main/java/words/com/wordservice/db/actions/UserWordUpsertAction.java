@@ -6,6 +6,6 @@ public record UserWordUpsertAction(
         String userId,
         String wordId,
         String customImageFileName,
-        String customSoundFileNam
+        String customSoundFileName
 ) {
 }

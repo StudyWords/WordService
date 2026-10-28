@@ -2,6 +2,7 @@ package words.com.wordservice.api.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +11,6 @@ import words.com.wordservice.api.mappers.LearningPlanApiMapper;
 import words.com.wordservice.api.requests.plan.LearningPlanRequest;
 import words.com.wordservice.api.responds.plan.LearningPlanRespond;
 import words.com.wordservice.domain.services.LearningPlanService;
-
-import javax.annotation.Nullable;
 
 @ResponseBody
 @RestController

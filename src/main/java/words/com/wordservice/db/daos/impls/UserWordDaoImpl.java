@@ -51,7 +51,7 @@ class UserWordDaoImpl implements UserWordDao {
                     action.id(),
                     OffsetDateTime.now(),
                     action.customImageFileName(),
-                    action.customSoundFileNam(),
+                    action.customSoundFileName(),
                     OffsetDateTime.now(),
                     0,
                     action.userId(),
