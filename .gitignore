@@ -31,7 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/application-postgress.properties
 /learning_plans.json
 /mvnw
 /mvnw.cmd
@@ -43,7 +42,6 @@ build/
 /src/main/java/words/com/wordservice/postconfigs/ReadStarter.java
 /src/main/java/words/com/wordservice/postconfigs/RunTest.java
 /src/main/java/words/com/wordservice/postconfigs/DevSetting.java
-/src/main/resources/application-cloud.properties
 /build
 /new_words.json
 /backup/
@@ -58,3 +56,5 @@ build/
 /words_output.json
 /words_output_entity.json
 /CODE_STYLE.md
+
+/.env
