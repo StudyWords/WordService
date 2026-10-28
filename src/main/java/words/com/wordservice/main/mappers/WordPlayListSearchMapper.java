@@ -1,7 +1,5 @@
 package words.com.wordservice.main.mappers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +11,7 @@ import words.com.wordservice.main.models.enums.sortfields.WordPlaylistSortField;
 import words.com.wordservice.main.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.main.models.filters.WordPlayListFilter;
 import words.com.wordservice.main.utils.SortUtils;
+import words.com.wordservice.shared.utils.ModelUtils;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,9 +27,6 @@ public class WordPlayListSearchMapper {
             LANGUAGE, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getLanguage),
             TRANSLATE_LANGUAGE, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getTranslateLanguage)
     );
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public Pageable toPageable(WordPlayListFilter filter) {
         var sort = toSort(filter.sortField(), filter.asc(), false);
@@ -56,10 +52,10 @@ public class WordPlayListSearchMapper {
     }
 
     public WordPlayListSearch toSearch(WordPlayListFilter filter) {
-        return objectMapper.convertValue(filter, WordPlayListSearch.class);
+        return ModelUtils.convert(filter, WordPlayListSearch.class);
     }
 
     public WordPlayListCountSearch toSearch(WordPlayListCountFilter filter) {
-        return objectMapper.convertValue(filter, WordPlayListCountSearch.class);
+        return ModelUtils.convert(filter, WordPlayListCountSearch.class);
     }
 }

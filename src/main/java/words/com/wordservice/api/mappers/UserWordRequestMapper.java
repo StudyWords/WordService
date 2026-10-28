@@ -1,33 +1,33 @@
 package words.com.wordservice.api.mappers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.words.*;
-import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.main.models.filters.UserWordFilter;
-import words.com.wordservice.main.models.words.*;
+import words.com.wordservice.main.models.words.UserWordCreateDto;
+import words.com.wordservice.main.models.words.UserWordDeleteDto;
+import words.com.wordservice.main.models.words.UserWordEditDto;
+import words.com.wordservice.main.models.words.UserWordLink;
 import words.com.wordservice.main.utils.IdGenerator;
+import words.com.wordservice.shared.utils.ModelUtils;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class UserWordApiMapper {
+public class UserWordRequestMapper {
     private final IdGenerator idGenerator;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
-            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final WordApiMapper wordApiMapper;
+    private final WordRequestMapper wordRequestMapper;
 
     public UserWordFilter toFilter(User user, UserWordFilterRequest getRequest) {
-        var filterBuilder = objectMapper.convertValue(getRequest, UserWordFilter.class).toBuilder();
+        var filterBuilder = ModelUtils.convert(getRequest, UserWordFilter.class).toBuilder();
         DecodeUtils.decode(filterBuilder::original, getRequest::original);
         DecodeUtils.decode(filterBuilder::translate, getRequest::translate);
         DecodeUtils.decodeCollection(filterBuilder::categories, getRequest::categories);
@@ -39,8 +39,22 @@ public class UserWordApiMapper {
         return filterBuilder.build();
     }
 
-    public UserWordRespond toRespond(UserWord model) {
-        return objectMapper.convertValue(model, UserWordRespond.class);
+    public List<UserWordCreateDto> toCreateDtos(User user, Collection<UserWordCreateRequest> requests) {
+        return requests.stream()
+                .map(request -> toModel(user, request))
+                .toList();
+    }
+
+    public List<UserWordLink> toLinks(User user, Collection<UserWordPinRequest> requests) {
+        return requests.stream()
+                .map(request -> toModel(user, request))
+                .toList();
+    }
+
+    public Set<UserWordDeleteDto> toDeleteDtos(String userId, Collection<UserWordDeleteRequest> requests) {
+        return requests.stream()
+                .map(request -> toDeleteDto(request, userId))
+                .collect(Collectors.toSet());
     }
 
     public UserWordCreateDto toModel(User user, UserWordCreateRequest request) {
@@ -49,7 +63,7 @@ public class UserWordApiMapper {
                 user.id(),
                 request.customSoundFileName(),
                 request.customImageFileName(),
-                wordApiMapper.toWordDraft(request.word(), user)
+                wordRequestMapper.toWordDraft(request.word(), user)
         );
     }
 
@@ -63,7 +77,7 @@ public class UserWordApiMapper {
     }
 
 
-    public UserWordDeleteDto toOptions(UserWordDeleteRequest request, String userId) {
+    public UserWordDeleteDto toDeleteDto(UserWordDeleteRequest request, String userId) {
         return new UserWordDeleteDto(
                 request.id(),
                 userId,
@@ -71,7 +85,7 @@ public class UserWordApiMapper {
         );
     }
 
-    public UserWordEditDto toModel(@AuthenticationPrincipal User user, @RequestBody @Valid UserWordEditRequest request) {
+    public UserWordEditDto toModel(User user, UserWordEditRequest request) {
         return new UserWordEditDto(
                 request.id(),
                 user.id(),

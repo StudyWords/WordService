@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 
 @Component
-public class PinPlayListApiMapper {
+public class PinPlayListRequestMapper {
 
     public UserPins toUserPins(User user, Collection<PinPlayRequest> requests) {
         return new UserPins(

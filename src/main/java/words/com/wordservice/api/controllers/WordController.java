@@ -7,7 +7,8 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.mappers.WordApiMapper;
+import words.com.wordservice.api.mappers.WordRequestMapper;
+import words.com.wordservice.api.mappers.WordRespondMapper;
 import words.com.wordservice.api.requests.words.WordCreateRequest;
 import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
@@ -22,28 +23,25 @@ import java.util.Set;
 @RequestMapping("/words")
 @RequiredArgsConstructor
 public class WordController {
-    private final WordApiMapper wordApiMapper;
+    private final WordRequestMapper requestMapper;
+    private final WordRespondMapper respondMapper;
     private final WordService wordService;
 
     @GetMapping
     PagedModel<WordRespond> get(@AuthenticationPrincipal User user, @Valid @ModelAttribute WordGetRequest request){
-        var filter = wordApiMapper.toModel(user,request);
-        var paged = wordService.findBy(filter).map(wordApiMapper::toRespond);
+        var filter = requestMapper.toFilter(user, request);
+        var paged = wordService.findBy(filter).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 
     @PostMapping
     void save(@AuthenticationPrincipal User user, @RequestBody @Valid @NotEmpty Set<WordCreateRequest> words) {
-        var models =  words.stream()
-                .map(it -> wordApiMapper.toWordDraft(it, user))
-                .toList();
-        wordService.save(models);
+        wordService.save(requestMapper.toWordDrafts(user, words));
     }
 
     @DeleteMapping
     void delete(@RequestBody @Valid WordDeleteRequest request) {
-        var options = wordApiMapper.toOptions(request);
-        wordService.delete(options);
+        wordService.delete(requestMapper.toDeleteDto(request));
     }
 
 }

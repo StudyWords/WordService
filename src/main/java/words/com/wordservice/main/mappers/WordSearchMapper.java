@@ -1,6 +1,5 @@
 package words.com.wordservice.main.mappers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,6 +9,7 @@ import words.com.wordservice.db.searches.WordSearch;
 import words.com.wordservice.main.models.enums.sortfields.WordSortField;
 import words.com.wordservice.main.models.filters.WordFilter;
 import words.com.wordservice.main.utils.SortUtils;
+import words.com.wordservice.shared.utils.ModelUtils;
 
 import java.util.Map;
 import java.util.Objects;
@@ -25,8 +25,6 @@ public class WordSearchMapper {
             TRANSLATE_LANG, SortUtils.getSortColumnName(WordEntity.class, WordEntity::getTranslateLang),
             CATEGORY, SortUtils.getSortColumnName(WordEntity.class, WordEntity::getCategory)
     );
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public Pageable toPageable(WordFilter filter) {
         var direction = filter.asc() ? Sort.Direction.ASC : Sort.Direction.DESC;
@@ -36,7 +34,7 @@ public class WordSearchMapper {
     }
 
     public WordSearch toSearch(WordFilter filter) {
-        return objectMapper.convertValue(filter, WordSearch.class);
+        return ModelUtils.convert(filter, WordSearch.class);
     }
 
 }

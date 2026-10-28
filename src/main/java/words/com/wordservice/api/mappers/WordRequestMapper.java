@@ -1,7 +1,5 @@
 package words.com.wordservice.api.mappers;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
@@ -9,27 +7,25 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.words.WordCreateRequest;
 import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
-import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.main.models.enums.WordType;
 import words.com.wordservice.main.models.filters.WordFilter;
-import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
 import words.com.wordservice.main.models.words.WordDraft;
 import words.com.wordservice.main.utils.IdGenerator;
+import words.com.wordservice.shared.utils.ModelUtils;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Component
 @RequiredArgsConstructor
-public class WordApiMapper {
+public class WordRequestMapper {
     private final IdGenerator idGenerator;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public WordFilter toModel(User user, WordGetRequest request) {
+    public WordFilter toFilter(User user, WordGetRequest request) {
         var builder = request.toBuilder();
 
         if (user != null && !user.role().equals(Role.ADMINISTRATION) && request.userId() != null){
@@ -43,9 +39,15 @@ public class WordApiMapper {
         DecodeUtils.decode(builder::translate, request::translate);
         DecodeUtils.decodeCollection(builder::categories, request::categories);
 
-        return objectMapper.convertValue(builder.build(), WordFilter.class);
+        return ModelUtils.convert(builder.build(), WordFilter.class);
     }
 
+
+    public List<WordDraft> toWordDrafts(User user, Collection<WordCreateRequest> words) {
+        return words.stream()
+                .map(word -> toWordDraft(word, user))
+                .toList();
+    }
 
     public WordDraft toWordDraft(WordCreateRequest word, User user) {
         return new WordDraft(
@@ -63,11 +65,7 @@ public class WordApiMapper {
         );
     }
 
-    public WordRespond toRespond(Word model) {
-        return objectMapper.convertValue(model, WordRespond.class);
-    }
-
-    public WordDeleteDto toOptions(WordDeleteRequest request) {
-        return objectMapper.convertValue(request, WordDeleteDto.class);
+    public WordDeleteDto toDeleteDto(WordDeleteRequest request) {
+        return ModelUtils.convert(request, WordDeleteDto.class);
     }
 }

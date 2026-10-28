@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.mappers.PinPlayListApiMapper;
+import words.com.wordservice.api.mappers.PinPlayListRequestMapper;
 import words.com.wordservice.api.requests.pins.PinPlayRequest;
 import words.com.wordservice.main.services.PinPlayListService;
 
@@ -21,14 +21,14 @@ import java.util.List;
 @Validated
 public class PinController {
     private final PinPlayListService pinService;
-    private final PinPlayListApiMapper pinPlayListApiMapper;
+    private final PinPlayListRequestMapper requestMapper;
 
     @PostMapping("/pin")
     public void pin(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid List<PinPlayRequest> requests
     ){
-        pinService.pin(pinPlayListApiMapper.toUserPins(user, requests));
+        pinService.pin(requestMapper.toUserPins(user, requests));
     }
 
     @PostMapping("/unpin")
@@ -36,6 +36,6 @@ public class PinController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid List<PinPlayRequest> requests
     ){
-        pinService.unpin(pinPlayListApiMapper.toUserPinIds(user, requests));
+        pinService.unpin(requestMapper.toUserPinIds(user, requests));
     }
 }

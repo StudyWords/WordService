@@ -10,7 +10,10 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class DecodeUtils {
+public final class DecodeUtils {
+
+    private DecodeUtils() {
+    }
 
     public static void decode(Consumer<String> setter, Supplier<String> getter) {
         if (StringUtils.hasText(getter.get())) {

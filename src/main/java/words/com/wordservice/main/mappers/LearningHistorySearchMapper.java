@@ -1,7 +1,5 @@
 package words.com.wordservice.main.mappers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +11,7 @@ import words.com.wordservice.db.searches.history.StatisticsLearningHistorySearch
 import words.com.wordservice.main.models.filters.history.CountLearningHistoryFilter;
 import words.com.wordservice.main.models.filters.history.LearningHistoryFilter;
 import words.com.wordservice.main.models.filters.history.StatisticsLearningHistoryFilter;
+import words.com.wordservice.shared.utils.ModelUtils;
 import words.com.wordservice.utils.Range;
 
 import java.time.LocalDate;
@@ -20,8 +19,6 @@ import java.time.OffsetDateTime;
 
 @Component
 public class LearningHistorySearchMapper {
-    private final ObjectMapper modelMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
 
     public LearningHistorySearch toSearch(LearningHistoryFilter filter) {
         return new LearningHistorySearch(
@@ -58,6 +55,6 @@ public class LearningHistorySearchMapper {
     }
 
     public CountLearningHistorySearch toSearch(CountLearningHistoryFilter filter) {
-        return modelMapper.convertValue(filter, CountLearningHistorySearch.class);
+        return ModelUtils.convert(filter, CountLearningHistorySearch.class);
     }
 }

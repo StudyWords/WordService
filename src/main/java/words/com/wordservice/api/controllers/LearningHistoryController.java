@@ -5,7 +5,8 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.mappers.LearningHistoryApiMapper;
+import words.com.wordservice.api.mappers.LearningHistoryRequestMapper;
+import words.com.wordservice.api.mappers.LearningHistoryRespondMapper;
 import words.com.wordservice.api.requests.history.CountLearningHistoryFilterRequest;
 import words.com.wordservice.api.requests.history.LearningHistoryFilterRequest;
 import words.com.wordservice.api.requests.history.StatisticsLearningHistoryFilterRequest;
@@ -20,14 +21,15 @@ import words.com.wordservice.main.services.LearningHistoryService;
 @RequiredArgsConstructor
 public class LearningHistoryController {
     private final LearningHistoryService learningHistoryService;
-    private final LearningHistoryApiMapper mapper;
+    private final LearningHistoryRequestMapper requestMapper;
+    private final LearningHistoryRespondMapper respondMapper;
 
     @GetMapping
     public PagedModel<LearningHistoryRespond> getLearningHistory(
             @AuthenticationPrincipal User user,
             @ModelAttribute LearningHistoryFilterRequest request) {
-        var filter = mapper.toModel(user, request);
-        var paged = learningHistoryService.findBy(filter).map(mapper::toRespond);
+        var filter = requestMapper.toModel(user, request);
+        var paged = learningHistoryService.findBy(filter).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 
@@ -35,8 +37,8 @@ public class LearningHistoryController {
     public PagedModel<StatisticsLearningHistoryRespond> getStatisticsLearningHistory(
             @AuthenticationPrincipal User user,
             @ModelAttribute StatisticsLearningHistoryFilterRequest request) {
-        var filter = mapper.toModel(user, request);
-        var paged = learningHistoryService.findBy(filter).map(mapper::toRespond);
+        var filter = requestMapper.toModel(user, request);
+        var paged = learningHistoryService.findBy(filter).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 
@@ -44,8 +46,8 @@ public class LearningHistoryController {
     public PagedModel<CountLearningHistoryRespond> getCountLearningHistory(
             @AuthenticationPrincipal User user,
             @ModelAttribute CountLearningHistoryFilterRequest request) {
-        var filter = mapper.toModel(user, request);
-        var paged = learningHistoryService.findBy(filter).map(mapper::toRespond);
+        var filter = requestMapper.toModel(user, request);
+        var paged = learningHistoryService.findBy(filter).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 }

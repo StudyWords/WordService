@@ -1,60 +1,42 @@
 package words.com.wordservice.api.mappers;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.playlist.*;
-import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
-import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
-import words.com.wordservice.api.responds.playlist.PlayListRespond;
-import words.com.wordservice.api.responds.playlist.PublicPlayListCountRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.main.models.enums.PlayListVisibility;
 import words.com.wordservice.main.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.main.models.filters.WordPlayListFilter;
-import words.com.wordservice.main.models.playlist.*;
-import words.com.wordservice.main.services.WordPlayListService;
+import words.com.wordservice.main.models.playlist.PlayListGrade;
+import words.com.wordservice.main.models.playlist.PlayListTitle;
+import words.com.wordservice.main.models.playlist.UserPlayLists;
 import words.com.wordservice.main.utils.IdGenerator;
+import words.com.wordservice.shared.utils.ModelUtils;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PlayListApiMapper {
+public class PlayListRequestMapper {
     private final IdGenerator idGenerator;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final WordPlayListService wordPlayListService;
 
-    public WordPlayListCountFilter toPublicFilter(@Nullable User user, PublicPlayListCountGetRequest getRequest) {
-
-        var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
+    public WordPlayListCountFilter toPublicFilter(PublicPlayListCountGetRequest getRequest) {
+        var builder = ModelUtils.convert(getRequest, WordPlayListCountFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);
 
-        if (user != null) {
-            var assignedPlayListIds = wordPlayListService.findAssigned(user.id())
-                    .stream().map(AssignedPlaylist::id).collect(Collectors.toSet());
-            builder.notInIds(assignedPlayListIds);
-        }
-
-        return builder
-                .userId("system")
-                .visibility(PlayListVisibility.PUBLIC)
-                .build();
+        return builder.build();
     }
 
     public WordPlayListCountFilter toCountFilter(@NonNull User user, PlayListCountGetRequest getRequest) {
         if (user.role().equals(Role.CUSTOMER)) {
             getRequest = getRequest.withUserIds(Collections.singleton(user.id()));
         }
-        var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
+        var builder = ModelUtils.convert(getRequest, WordPlayListCountFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);
 
         return builder.build();
@@ -64,7 +46,7 @@ public class PlayListApiMapper {
         if (!Role.ADMINISTRATION.equals(user.role())) {
             getRequest = getRequest.withUserIds(Collections.singleton(user.id()));
         }
-        var builder = objectMapper.convertValue(getRequest, WordPlayListFilter.class).toBuilder();
+        var builder = ModelUtils.convert(getRequest, WordPlayListFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);
 
         return builder.build();
@@ -72,7 +54,7 @@ public class PlayListApiMapper {
 
     public WordPlayListFilter toFilter(PublicPlayListGetRequest getRequest) {
 
-        var builder = objectMapper.convertValue(getRequest, WordPlayListFilter.class).toBuilder();
+        var builder = ModelUtils.convert(getRequest, WordPlayListFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);
 
         return builder
@@ -80,16 +62,26 @@ public class PlayListApiMapper {
                 .build();
     }
 
-    public PlayListCountRespond toRespond(WordPlayListCount model) {
-        return objectMapper.convertValue(model, PlayListCountRespond.class);
+    public List<PlayListTitle> toUpdateTitles(@NonNull User user, Collection<PlayListUpdateRequest> requests) {
+        return requests.stream()
+                .map(request -> toPlayListTitle(user, request))
+                .toList();
     }
 
-    public PublicPlayListCountRespond toPublicRespond(WordPlayListCount model) {
-        return objectMapper.convertValue(model, PublicPlayListCountRespond.class);
+    public List<PlayListTitle> toCreateTitles(@NonNull User user, Collection<PlayListCreateRequest> requests) {
+        return requests.stream()
+                .map(request -> toPlayListTitle(user, request))
+                .toList();
     }
 
-    public PlayListRespond toRespond(WordPlayList model) {
-        return objectMapper.convertValue(model, PlayListRespond.class);
+    public List<PlayListGrade> toPlayListGrades(@NonNull User user, Collection<PlayListGradeRequest> requests) {
+        return requests.stream()
+                .map(request -> toPlayListGrade(user, request))
+                .toList();
+    }
+
+    public UserPlayLists toUserPlayLists(@NonNull User user, List<String> ids) {
+        return new UserPlayLists(user.id(), ids);
     }
 
     public PlayListTitle toPlayListTitle(@NonNull User user, @NonNull PlayListUpdateRequest request) {
@@ -114,9 +106,5 @@ public class PlayListApiMapper {
                 user.id(),
                 request.wordGrade()
         );
-    }
-
-    public AssignedPlaylistRespond toAssignedRespond(AssignedPlaylist assignedPlaylist) {
-        return new AssignedPlaylistRespond(assignedPlaylist.id());
     }
 }

@@ -1,8 +1,5 @@
 package words.com.wordservice.main.mappers;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
@@ -17,6 +14,7 @@ import words.com.wordservice.main.models.playlist.WordPlayList;
 import words.com.wordservice.main.models.playlist.WordPlayListCount;
 import words.com.wordservice.main.models.words.PinnedWord;
 import words.com.wordservice.main.utils.IdGenerator;
+import words.com.wordservice.shared.utils.ModelUtils;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -27,9 +25,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class WordPlayListDomainMapper {
     private final IdGenerator idGenerator;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final UserWordDomainMapper userWordDomainMapper;
 
     public WordPlayList toModel(WordPlayListEntity entity) {
@@ -75,7 +70,7 @@ public class WordPlayListDomainMapper {
             return new TreeSet<>();
         }
         try {
-            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(TreeSet.class, String.class));
+            return ModelUtils.readTreeSet(json, String.class);
         } catch (Exception e) {
             return new TreeSet<>();
         }
@@ -86,7 +81,7 @@ public class WordPlayListDomainMapper {
             return new TreeSet<>();
         }
         try {
-            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(TreeSet.class, CEFR.class));
+            return ModelUtils.readTreeSet(json, CEFR.class);
         } catch (Exception e) {
             return new TreeSet<>();
         }
