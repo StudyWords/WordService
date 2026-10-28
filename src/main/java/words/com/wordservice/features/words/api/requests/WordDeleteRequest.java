@@ -1,0 +1,15 @@
+package words.com.wordservice.features.words.api.requests;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import words.com.wordservice.features.words.main.enums.WordType;
+
+import java.util.Set;
+
+public record WordDeleteRequest(
+        @NotEmpty(message = "Ids must be specified")
+        Set<String> ids,
+        @NotNull(message = "Type must be specified")
+        WordType type
+) {
+}

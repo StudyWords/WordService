@@ -3,7 +3,6 @@ package words.com.wordservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
-import words.backend.authmodule.domain.httpfilters.JwtAuthFilter;
 
 @SpringBootApplication(
         exclude = {UserDetailsServiceAutoConfiguration.class}

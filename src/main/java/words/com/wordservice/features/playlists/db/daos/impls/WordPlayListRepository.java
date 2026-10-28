@@ -1,0 +1,124 @@
+package words.com.wordservice.features.playlists.db.daos.impls;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.ListCrudRepository;
+import words.com.wordservice.features.playlists.db.entities.WordPlayListEntity;
+import words.com.wordservice.features.playlists.db.projections.PlayListCountProjection;
+
+import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.Optional;
+
+interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, String>,
+        JpaSpecificationExecutor<WordPlayListEntity> {
+
+    String SELECT_COUNT =
+            """
+                    SELECT\s
+                        wp.id,
+                        wp.user_id AS userId,
+                        wp.name,
+                        wp.created_at AS createdAt,
+                        COUNT(pw.user_word_id) as count,
+                        wp.tags,
+                        wp.cefrs,
+                        wp.language,
+                        wp.translate_language AS translateLanguage,
+                        wp.pinned_at AS pinnedAt
+                    
+                    FROM
+                        word_playlists wp
+                    LEFT JOIN
+                        pinned_word pw ON wp.id = pw.play_list_id
+                    WHERE
+                       (:hasIds = true or wp.id in(:ids)) AND
+                       (:hasUserIds = true or wp.user_id in(:userIds)) AND
+                       (:name IS NULL OR wp.name ILIKE CONCAT('%',:name,'%')) AND
+                       (:hasCefrs = true or EXISTS (
+                           SELECT 1 FROM jsonb_array_elements_text(wp.cefrs::jsonb) AS elem
+                           WHERE elem IN (:cefrs)
+                       )) AND
+                       (:hasTags = true or EXISTS (
+                           SELECT 1 FROM jsonb_array_elements_text(wp.tags::jsonb) AS elem
+                           WHERE elem IN (:tags)
+                       )) AND
+                       (:language IS NULL OR wp.language = :language) AND
+                       (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage) AND
+                       (:visibility IS NULL OR wp.visibility = :visibility) AND
+                       (:associationId IS NULL OR wp.association_id = :associationId) AND
+                       (:hasNotInIds = true or wp.id NOT IN (:notInIds)) AND
+                       (:hasPin IS NULL OR
+                           (:hasPin = true AND wp.pinned_at IS NOT NULL) OR
+                           (:hasPin = false AND wp.pinned_at IS NULL)
+                       )
+                    GROUP BY  wp.id
+                    HAVING
+                        (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
+                        (:fromCount is null or COUNT(pw.user_word_id) > :fromCount)
+                    """;
+
+    @Query(value = SELECT_COUNT, nativeQuery = true)
+    Page<PlayListCountProjection> findPlayListsWithCount(
+            boolean hasIds,
+            Collection<String> ids,
+            boolean hasUserIds,
+            Collection<String> userIds,
+            String name,
+            Long toCount,
+            Long fromCount,
+            boolean hasCefrs,
+            Collection<String> cefrs,
+            boolean hasTags,
+            Collection<String> tags,
+            String language,
+            String translateLanguage,
+            String visibility,
+            String associationId,
+            boolean hasNotInIds,
+            Collection<String> notInIds,
+            Boolean hasPin,
+            Pageable pageable
+    );
+
+    @Query(value = """
+            SELECT
+                wp.id,
+                wp.user_id AS userId,
+                wp.name,
+                wp.created_at AS createdAt,
+                COUNT(pw.user_word_id) as count,
+                wp.tags,
+                wp.cefrs,
+                wp.language,
+                wp.translate_language AS translateLanguage,
+                wp.pinned_at AS pinnedAt
+            FROM word_playlists wp
+            LEFT JOIN pinned_word pw ON wp.id = pw.play_list_id
+            WHERE wp.user_id = :userId
+            GROUP BY wp.id
+            ORDER BY RANDOM()
+            LIMIT 1
+            """, nativeQuery = true)
+    Optional<PlayListCountProjection> findRandomByUserId(String userId);
+
+    @Modifying
+    @Query("""
+                UPDATE WordPlayListEntity e
+                SET e.pinnedAt = :pinnedAt
+                WHERE e.id = :playListId and e.userId = :userId and e.pinnedAt is null
+            """)
+    int pin(String playListId, String userId, OffsetDateTime pinnedAt);
+
+
+    @Modifying
+    @Query("""
+                UPDATE WordPlayListEntity e
+                SET e.pinnedAt = null
+                WHERE e.id = :playListId  and e.userId = :userId  and e.pinnedAt is not null
+            """)
+    int unpin(String playListId, String userId);
+}

@@ -10,13 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import words.backend.authmodule.configs.WordSecurityMainConfig;
 import words.com.wordservice.configs.props.AppProps;
-import words.com.wordservice.main.services.impls.DomainServiceConfig;
 
 @Configuration
 @EnableConfigurationProperties(AppProps.class)
 @Import({
-        WordSecurityMainConfig.class,
-        DomainServiceConfig.class
+        WordSecurityMainConfig.class
 })
 public class MainConfig {
 
