@@ -1,10 +1,10 @@
 package words.com.wordservice.db.daos.impls;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.daos.PlayListDao;
@@ -31,81 +31,89 @@ class PlayListDaoImpl implements PlayListDao {
     private final UserWordRepository userWordRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<WordPlayListEntity> findBy(WordPlayListSearch search, Pageable pageable) {
         return repository.findAll(search, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<WordPlayListEntity> findBy(WordPlayListSearch search) {
         return repository.findAll(search);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable) {
         return repository.findPlayListsWithCount(
-                CollectionUtils.isEmpty(search.getIds()),
-                search.getIds(),
-                CollectionUtils.isEmpty(search.getUserIds()),
-                search.getUserIds(),
-                search.getName(),
-                Range.to(search.getCount()),
-                Range.from(search.getCount()),
-                CollectionUtils.isEmpty(search.getCefrs()),
-                search.getCefrs() != null ? search.getCefrs().stream().map(Enum::name).toList() : List.of(),
-                CollectionUtils.isEmpty(search.getTags()),
-                search.getTags() != null ? search.getTags() : Set.of(),
-                search.getLanguage() != null ? search.getLanguage().name() : null,
-                search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
-                search.getVisibility() != null ? search.getVisibility().name() : null,
-                search.getAssociationId(),
-                CollectionUtils.isEmpty(search.getNotInIds()),
-                search.getNotInIds() != null ? search.getNotInIds() : List.of(),
-                search.getHasPin(),
+                CollectionUtils.isEmpty(search.ids()),
+                search.ids(),
+                CollectionUtils.isEmpty(search.userIds()),
+                search.userIds(),
+                search.name(),
+                Range.to(search.count()),
+                Range.from(search.count()),
+                CollectionUtils.isEmpty(search.cefrs()),
+                search.cefrs() != null ? search.cefrs().stream().map(Enum::name).toList() : List.of(),
+                CollectionUtils.isEmpty(search.tags()),
+                search.tags() != null ? search.tags() : Set.of(),
+                search.language() != null ? search.language().name() : null,
+                search.translateLanguage() != null ? search.translateLanguage().name() : null,
+                search.visibility() != null ? search.visibility().name() : null,
+                search.associationId(),
+                CollectionUtils.isEmpty(search.notInIds()),
+                search.notInIds() != null ? search.notInIds() : List.of(),
+                search.hasPin(),
                 pageable
         );
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search) {
         return repository.findPlayListsWithCount(
-                CollectionUtils.isEmpty(search.getIds()),
-                search.getIds(),
-                CollectionUtils.isEmpty(search.getUserIds()),
-                search.getUserIds(),
-                search.getName(),
-                Range.to(search.getCount()),
-                Range.from(search.getCount()),
-                CollectionUtils.isEmpty(search.getCefrs()),
-                search.getCefrs() != null ? search.getCefrs().stream().map(Enum::name).toList() : List.of(),
-                CollectionUtils.isEmpty(search.getTags()),
-                search.getTags() != null ? search.getTags() : Set.of(),
-                search.getLanguage() != null ? search.getLanguage().name() : null,
-                search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
-                search.getVisibility() != null ? search.getVisibility().name() : null,
-                search.getAssociationId(),
-                CollectionUtils.isEmpty(search.getNotInIds()),
-                search.getNotInIds() != null ? search.getNotInIds() : List.of(),
-                search.getHasPin(),
+                CollectionUtils.isEmpty(search.ids()),
+                search.ids(),
+                CollectionUtils.isEmpty(search.userIds()),
+                search.userIds(),
+                search.name(),
+                Range.to(search.count()),
+                Range.from(search.count()),
+                CollectionUtils.isEmpty(search.cefrs()),
+                search.cefrs() != null ? search.cefrs().stream().map(Enum::name).toList() : List.of(),
+                CollectionUtils.isEmpty(search.tags()),
+                search.tags() != null ? search.tags() : Set.of(),
+                search.language() != null ? search.language().name() : null,
+                search.translateLanguage() != null ? search.translateLanguage().name() : null,
+                search.visibility() != null ? search.visibility().name() : null,
+                search.associationId(),
+                CollectionUtils.isEmpty(search.notInIds()),
+                search.notInIds() != null ? search.notInIds() : List.of(),
+                search.hasPin(),
                 Pageable.unpaged()
         ).getContent();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<String> getAssignedPlaylistIds(String userId) {
         return repository.getAssignedPlaylistIds(userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<WordPlaylistCountProjection> findRandomByUserId(String userId) {
         return repository.findRandomByUserId(userId);
     }
 
     @Override
+    @Transactional
     public void saveAll(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
     }
 
     @Override
+    @Transactional
     public void updateAll(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
     }
@@ -138,7 +146,7 @@ class PlayListDaoImpl implements PlayListDao {
     @Override
     @Transactional
     public void delete(WordPlayListSearch search) {
-        if (CollectionUtils.isEmpty(search.getIds())) {
+        if (CollectionUtils.isEmpty(search.ids())) {
             return;
         }
         repository.delete(search);

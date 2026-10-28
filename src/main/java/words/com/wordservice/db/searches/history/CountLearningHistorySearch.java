@@ -1,14 +1,12 @@
 package words.com.wordservice.db.searches.history;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class CountLearningHistorySearch {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userIds;
+public record CountLearningHistorySearch(
+        @Singular(ignoreNullCollections = true) Collection<String> userIds
+) {
 }

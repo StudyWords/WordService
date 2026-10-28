@@ -1,23 +1,23 @@
 package words.com.wordservice.db.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 
 import java.time.OffsetDateTime;
 
-@Data
-@Builder
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_words")
 @Entity
 public class UserWordEntity {
     @Id
+    @EqualsAndHashCode.Include
     private String id;
     @Column(nullable = false, updatable = false)
     private String userId;

@@ -4,7 +4,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
@@ -15,16 +16,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class LearningHistorySearch implements Specification<LearningHistoryEntity> {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> wordIds;
-    private Range<LocalDate> date;
+public record LearningHistorySearch(
+        @Singular(ignoreNullCollections = true) Collection<String> userIds,
+        @Singular(ignoreNullCollections = true) Collection<String> wordIds,
+        Range<LocalDate> date
+) implements Specification<LearningHistoryEntity> {
 
     @Override
     public Predicate toPredicate(@NonNull Root<LearningHistoryEntity> root, CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {

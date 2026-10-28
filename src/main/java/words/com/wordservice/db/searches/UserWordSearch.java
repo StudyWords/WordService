@@ -1,7 +1,8 @@
 package words.com.wordservice.db.searches;
 
 import jakarta.persistence.criteria.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,37 +17,23 @@ import words.com.wordservice.domain.models.enums.WordType;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserWordSearch implements Specification<UserWordEntity> {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userWordIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> wordIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<Language> languages;
-    @Singular(ignoreNullCollections = true)
-    private Collection<Language> translateLanguages;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> categories;
-    @Singular(ignoreNullCollections = true)
-    private Collection<CEFR> cefrs;
-    @Singular(ignoreNullCollections = true)
-    private Collection<WordType> types;
-    @Singular(ignoreNullCollections = true)
-    private Collection<UserWordSearch> searches;
-
-
-    private String translate;
-    private String original;
-
-    private Boolean hasSound;
-    private Boolean hasImage;
-    private Operations operation;
+public record UserWordSearch(
+        @Singular(ignoreNullCollections = true) Collection<String> userWordIds,
+        @Singular(ignoreNullCollections = true) Collection<String> wordIds,
+        @Singular(ignoreNullCollections = true) Collection<String> userIds,
+        @Singular(ignoreNullCollections = true) Collection<Language> languages,
+        @Singular(ignoreNullCollections = true) Collection<Language> translateLanguages,
+        @Singular(ignoreNullCollections = true) Collection<String> categories,
+        @Singular(ignoreNullCollections = true) Collection<CEFR> cefrs,
+        @Singular(ignoreNullCollections = true) Collection<WordType> types,
+        @Singular(ignoreNullCollections = true) Collection<UserWordSearch> searches,
+        String translate,
+        String original,
+        Boolean hasSound,
+        Boolean hasImage,
+        Operations operation
+) implements Specification<UserWordEntity> {
 
     @Nullable
     @Override

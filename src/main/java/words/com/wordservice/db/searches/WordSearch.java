@@ -1,7 +1,8 @@
 package words.com.wordservice.db.searches;
 
 import jakarta.persistence.criteria.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,36 +17,23 @@ import words.com.wordservice.domain.models.enums.WordType;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class WordSearch implements Specification<WordEntity> {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> wordIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<Language> languages;
-    @Singular(ignoreNullCollections = true)
-    private Collection<Language> translateLanguages;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> categories;
-    @Singular(ignoreNullCollections = true)
-    private Collection<CEFR> cefrs;
-    @Singular(ignoreNullCollections = true)
-    private Collection<WordType> types;
-    @Singular(ignoreNullCollections = true)
-    private Collection<WordSearch> searches;
-
-    private String translate;
-    private String original;
-    private String originalEq;
-
-    private UserId userId;
-
-    private Boolean hasSound;
-    private Boolean hasImage;
-
-    private Operations operation;
+public record WordSearch(
+        @Singular(ignoreNullCollections = true) Collection<String> wordIds,
+        @Singular(ignoreNullCollections = true) Collection<Language> languages,
+        @Singular(ignoreNullCollections = true) Collection<Language> translateLanguages,
+        @Singular(ignoreNullCollections = true) Collection<String> categories,
+        @Singular(ignoreNullCollections = true) Collection<CEFR> cefrs,
+        @Singular(ignoreNullCollections = true) Collection<WordType> types,
+        @Singular(ignoreNullCollections = true) Collection<WordSearch> searches,
+        String translate,
+        String original,
+        String originalEq,
+        UserId userId,
+        Boolean hasSound,
+        Boolean hasImage,
+        Operations operation
+) implements Specification<WordEntity> {
 
     @Nullable
     @Override

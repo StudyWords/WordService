@@ -11,8 +11,6 @@ import java.time.OffsetDateTime;
 
 interface UserWordRepository extends ListCrudRepository<UserWordEntity, String>, JpaSpecificationExecutor<UserWordEntity> {
 
-    // Custom query methods can be defined here if needed
-
     @Query("UPDATE UserWordEntity u " +
            "SET u.learningGrade = u.learningGrade + :value, u.lastReadDate = :lastReadDate " +
            "WHERE u.id = :id AND u.userId = :userId")

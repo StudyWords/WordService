@@ -1,22 +1,24 @@
 package words.com.wordservice.db.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
 
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table
 public class LearningPlanEntity {
     @Id
+    @EqualsAndHashCode.Include
     private String userId;
     private int wordsPerDay;
     @Enumerated(EnumType.STRING)

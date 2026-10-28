@@ -84,8 +84,6 @@ public class AdviceController {
         );
     }
 
-//
-
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {AppException.class})
     public ErrorRespond handleBadRequestException(AppException e) {

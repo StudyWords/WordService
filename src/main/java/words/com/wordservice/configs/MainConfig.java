@@ -4,14 +4,17 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import words.backend.authmodule.configs.WordSecurityMainConfig;
+import words.com.wordservice.configs.props.AppProps;
 import words.com.wordservice.db.daos.impls.DbDaoConfig;
 import words.com.wordservice.domain.services.impls.DomainServiceConfig;
 
 @Configuration
+@EnableConfigurationProperties(AppProps.class)
 @Import({
         WordSecurityMainConfig.class,
         DbDaoConfig.class,

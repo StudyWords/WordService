@@ -1,22 +1,22 @@
 package words.com.wordservice.db.entities.history;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 
 import java.time.OffsetDateTime;
 
-@Data
-@Builder
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "learning_history")
 public class LearningHistoryEntity {
     @Id
+    @EqualsAndHashCode.Include
     @Column(nullable = false, updatable = false)
     private String id;
     @Column(nullable = false, updatable = false)

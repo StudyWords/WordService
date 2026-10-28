@@ -1,10 +1,10 @@
 package words.com.wordservice.db.daos.impls;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 import words.com.wordservice.db.actions.WordDeleteAction;
 import words.com.wordservice.db.actions.WordUpdateAction;
 import words.com.wordservice.db.daos.WordDao;
@@ -20,31 +20,37 @@ class WordDaoImpl implements WordDao {
     private final WordRepository repository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<WordEntity> findBy(WordSearch search, Pageable pageable) {
         return repository.findAll(search, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<WordEntity> findBy(WordSearch search) {
         return repository.findAll(search);
     }
 
     @Override
+    @Transactional
     public void save(WordEntity entity) {
         repository.save(entity);
     }
 
     @Override
+    @Transactional
     public void saveAll(Collection<WordEntity> entities) {
         repository.saveAll(entities);
     }
 
     @Override
+    @Transactional
     public void update(WordEntity entity) {
         repository.save(entity);
     }
 
     @Override
+    @Transactional
     public void update(WordUpdateAction action) {
         repository.update(
                 action.id(),
@@ -59,6 +65,7 @@ class WordDaoImpl implements WordDao {
     }
 
     @Override
+    @Transactional
     public void updateAll(Collection<WordEntity> entities) {
         repository.saveAll(entities);
     }

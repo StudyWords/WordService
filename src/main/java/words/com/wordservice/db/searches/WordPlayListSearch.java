@@ -4,7 +4,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -14,19 +15,14 @@ import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class WordPlayListSearch implements Specification<WordPlayListEntity> {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> ids;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userIds;
-    private Boolean hasPin;
-
-    private String name;
-    private PlayListVisibility visibility;
+public record WordPlayListSearch(
+        @Singular(ignoreNullCollections = true) Collection<String> ids,
+        @Singular(ignoreNullCollections = true) Collection<String> userIds,
+        Boolean hasPin,
+        String name,
+        PlayListVisibility visibility
+) implements Specification<WordPlayListEntity> {
 
     @Override
     public Predicate toPredicate(Root<WordPlayListEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {

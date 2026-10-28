@@ -1,6 +1,8 @@
 package words.com.wordservice.api.requests.plan;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import words.com.wordservice.api.requests.interfaces.LanguagesGetter;
 import words.com.wordservice.api.valid.annotation.DifferentLanguage;
 import words.com.wordservice.domain.models.enums.CEFR;

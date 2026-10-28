@@ -1,13 +1,12 @@
 package words.com.wordservice.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

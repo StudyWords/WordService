@@ -7,7 +7,6 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import words.com.wordservice.db.entities.PinnedWordEntity;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 interface PinnedWordRepository extends ListCrudRepository<PinnedWordEntity, PinnedWordEntity.PinnedWordId>,

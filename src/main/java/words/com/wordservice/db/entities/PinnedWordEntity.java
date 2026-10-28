@@ -1,22 +1,22 @@
 package words.com.wordservice.db.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@Data
-@Builder
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "pinned_word")
 public class PinnedWordEntity {
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private PinnedWordId id;
 
     private Long learningGrade;
@@ -31,7 +31,9 @@ public class PinnedWordEntity {
     private UserWordEntity word;
 
 
-    @Data
+    @Getter
+    @Setter
+    @EqualsAndHashCode
     @NoArgsConstructor
     @AllArgsConstructor
     @Embeddable

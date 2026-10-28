@@ -1,7 +1,8 @@
 package words.com.wordservice.db.searches;
 
 import jakarta.persistence.criteria.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Singular;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
@@ -10,21 +11,14 @@ import words.com.wordservice.db.entities.PinnedWordEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PinnedWordSearch implements Specification<PinnedWordEntity> {
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> playListIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> wordIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<String> userWordIds;
-    @Singular(ignoreNullCollections = true)
-    private Collection<PinnedWordEntity.PinnedWordId> pinnedIds;
+public record PinnedWordSearch(
+        @Singular(ignoreNullCollections = true) Collection<String> playListIds,
+        @Singular(ignoreNullCollections = true) Collection<String> userIds,
+        @Singular(ignoreNullCollections = true) Collection<String> wordIds,
+        @Singular(ignoreNullCollections = true) Collection<String> userWordIds,
+        @Singular(ignoreNullCollections = true) Collection<PinnedWordEntity.PinnedWordId> pinnedIds
+) implements Specification<PinnedWordEntity> {
 
     @Override
     public Predicate toPredicate(@NonNull Root<PinnedWordEntity> root, CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {

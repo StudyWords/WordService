@@ -11,14 +11,17 @@ import words.com.wordservice.domain.models.enums.WordType;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "words")
 public class WordEntity {
     @Id
+    @EqualsAndHashCode.Include
     private String id;
     private String original;
     @Enumerated(EnumType.STRING)
@@ -44,6 +47,5 @@ public class WordEntity {
     private OffsetDateTime createdAt;
 
     @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
-    @ToString.Exclude
     private List<UserWordEntity> userWords;
 }

@@ -1,9 +1,9 @@
 package words.com.wordservice.db.daos.impls;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.UserWordDeleteAction;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
@@ -25,31 +25,37 @@ class UserWordDaoImpl implements UserWordDao {
     private final WordRepository wordRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<UserWordEntity> findBy(UserWordSearch s, Pageable pageable) {
         return repository.findAll(s, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserWordEntity> findBy(UserWordSearch s) {
         return repository.findAll(s);
     }
 
     @Override
+    @Transactional
     public void save(UserWordEntity entity) {
         repository.save(entity);
     }
 
     @Override
+    @Transactional
     public void saveAll(Collection<UserWordEntity> entities) {
         repository.saveAll(entities);
     }
 
     @Override
+    @Transactional
     public void update(UserWordEntity entity) {
         repository.save(entity);
     }
 
     @Override
+    @Transactional
     public void updateAll(Collection<UserWordEntity> entities) {
         repository.saveAll(entities);
     }
@@ -72,6 +78,7 @@ class UserWordDaoImpl implements UserWordDao {
     }
 
     @Override
+    @Transactional
     public void update(UserWordUpdateAction action) {
         repository.update(
                 action.id(),
@@ -118,11 +125,13 @@ class UserWordDaoImpl implements UserWordDao {
     }
 
     @Override
+    @Transactional
     public void delete(List<UserWordEntity> entities) {
         repository.deleteAll(entities);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long count(UserWordSearch s) {
         return repository.count(s);
     }

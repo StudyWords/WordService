@@ -1,8 +1,8 @@
 package words.com.wordservice.domain.services.impls;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.daos.LearningHistoryDao;
 import words.com.wordservice.db.daos.PinnedWordDao;
