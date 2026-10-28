@@ -20,6 +20,7 @@ public record WordPlayListSearch(
         @Singular(ignoreNullCollections = true) Collection<String> ids,
         @Singular(ignoreNullCollections = true) Collection<String> userIds,
         Boolean hasPin,
+        Boolean hasBaseId,
         String name,
         PlayListVisibility visibility
 ) implements Specification<WordPlayListEntity> {
@@ -47,6 +48,13 @@ public record WordPlayListSearch(
         }
         if (Boolean.FALSE.equals(hasPin)) {
             predicates.add(cb.isNull(root.get("pinnedAt")));
+        }
+
+        if (Boolean.TRUE.equals(hasBaseId)) {
+            predicates.add(cb.isNotNull(root.get("baseId")));
+        }
+        if (Boolean.FALSE.equals(hasBaseId)) {
+            predicates.add(cb.isNull(root.get("baseId")));
         }
 
         if (predicates.isEmpty()) {

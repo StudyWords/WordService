@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import words.com.wordservice.db.actions.WordDeleteAction;
 import words.com.wordservice.db.actions.WordUpdateAction;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 class WordDaoImpl implements WordDao {
     private final WordRepository repository;

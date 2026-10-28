@@ -3,6 +3,7 @@ package words.com.wordservice.db.daos.impls;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import words.com.wordservice.db.daos.LearningPlanDao;
 import words.com.wordservice.db.entities.LearningPlanEntity;
@@ -10,6 +11,7 @@ import words.com.wordservice.db.searches.LearningPlanSearch;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 class LearningPlanDaoImpl implements LearningPlanDao {
     private final LearningPlanRepository repository;

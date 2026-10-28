@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.entities.WordPlayListEntity;
-import words.com.wordservice.db.projections.WordPlaylistCountProjection;
+import words.com.wordservice.db.projections.PlayListCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
 import words.com.wordservice.playlist.db.actions.PlayListUpdateAction;
@@ -12,7 +12,6 @@ import words.com.wordservice.playlist.db.actions.PlayListUpdateAction;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface PlayListDao {
 
@@ -20,13 +19,11 @@ public interface PlayListDao {
 
     List<WordPlayListEntity> findBy(WordPlayListSearch search);
 
-    Page<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable);
+    Page<PlayListCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable);
 
-    List<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search);
+    List<PlayListCountProjection> findBy(WordPlayListCountSearch search);
 
-    Set<String> getAssignedPlaylistIds(String userId);
-
-    Optional<WordPlaylistCountProjection> findRandomByUserId(String userId);
+    Optional<PlayListCountProjection> findRandomByUserId(String userId);
 
     void saveAll(Collection<WordPlayListEntity> entities);
 

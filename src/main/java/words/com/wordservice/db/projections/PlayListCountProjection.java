@@ -4,7 +4,7 @@ import words.com.wordservice.domain.models.enums.Language;
 
 import java.time.Instant;
 
-public interface WordPlaylistCountProjection {
+public interface PlayListCountProjection {
     String getId();
 
     String getUserId();

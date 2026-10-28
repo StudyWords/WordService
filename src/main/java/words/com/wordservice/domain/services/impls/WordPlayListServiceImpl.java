@@ -148,8 +148,13 @@ class WordPlayListServiceImpl implements WordPlayListService {
 
     @Override
     public Set<AssignedPlaylist> getAssignedPlaylists(String userId) {
-        return dao.getAssignedPlaylistIds(userId)
+        var search = WordPlayListSearch.builder()
+                .userId(userId)
+                .hasBaseId(true)
+                .build();
+        return dao.findBy(search)
                 .stream()
+                .map(WordPlayListEntity::getBaseId)
                 .map(AssignedPlaylist::new)
                 .collect(Collectors.toSet());
     }

@@ -7,12 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import words.com.wordservice.db.entities.WordPlayListEntity;
-import words.com.wordservice.db.projections.WordPlaylistCountProjection;
+import words.com.wordservice.db.projections.PlayListCountProjection;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 
 interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, String>,
@@ -64,7 +63,7 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                     """;
 
     @Query(value = SELECT_COUNT, nativeQuery = true)
-    Page<WordPlaylistCountProjection> findPlayListsWithCount(
+    Page<PlayListCountProjection> findPlayListsWithCount(
             boolean hasIds,
             Collection<String> ids,
             boolean hasUserIds,
@@ -86,9 +85,6 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             Pageable pageable
     );
 
-    @Query(value = "SELECT wp.baseId FROM WordPlayListEntity wp WHERE wp.userId = :userId and wp.baseId is not null ")
-    Set<String> getAssignedPlaylistIds(String userId);
-
     @Query(value = """
             SELECT
                 wp.id,
@@ -108,7 +104,7 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             ORDER BY RANDOM()
             LIMIT 1
             """, nativeQuery = true)
-    Optional<WordPlaylistCountProjection> findRandomByUserId(String userId);
+    Optional<PlayListCountProjection> findRandomByUserId(String userId);
 
     @Modifying
     @Query("""

@@ -11,7 +11,7 @@ import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
-import words.com.wordservice.db.projections.WordPlaylistCountProjection;
+import words.com.wordservice.db.projections.PlayListCountProjection;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 import words.com.wordservice.domain.models.enums.PlayListVisibility;
@@ -55,7 +55,7 @@ public class WordPlayListDomainMapper {
         );
     }
 
-    public WordPlayListCount toModel(WordPlaylistCountProjection projection) {
+    public WordPlayListCount toModel(PlayListCountProjection projection) {
         return new WordPlayListCount(
                 projection.getId(),
                 projection.getUserId(),

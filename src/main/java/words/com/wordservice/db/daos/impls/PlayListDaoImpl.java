@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.daos.PlayListDao;
 import words.com.wordservice.db.entities.WordPlayListEntity;
-import words.com.wordservice.db.projections.WordPlaylistCountProjection;
+import words.com.wordservice.db.projections.PlayListCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
 import words.com.wordservice.playlist.db.actions.PinPlayListUpdateAction;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
+@Service
 @RequiredArgsConstructor
 class PlayListDaoImpl implements PlayListDao {
     private final WordPlayListRepository repository;
@@ -44,7 +46,7 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable) {
+    public Page<PlayListCountProjection> findBy(WordPlayListCountSearch search, Pageable pageable) {
         return repository.findPlayListsWithCount(
                 CollectionUtils.isEmpty(search.ids()),
                 search.ids(),
@@ -70,7 +72,7 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional(readOnly = true)
-    public List<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search) {
+    public List<PlayListCountProjection> findBy(WordPlayListCountSearch search) {
         return repository.findPlayListsWithCount(
                 CollectionUtils.isEmpty(search.ids()),
                 search.ids(),
@@ -96,13 +98,7 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<String> getAssignedPlaylistIds(String userId) {
-        return repository.getAssignedPlaylistIds(userId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<WordPlaylistCountProjection> findRandomByUserId(String userId) {
+    public Optional<PlayListCountProjection> findRandomByUserId(String userId) {
         return repository.findRandomByUserId(userId);
     }
 

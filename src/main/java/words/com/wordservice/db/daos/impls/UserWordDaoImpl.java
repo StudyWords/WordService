@@ -3,6 +3,7 @@ package words.com.wordservice.db.daos.impls;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.UserWordDeleteAction;
@@ -19,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 class UserWordDaoImpl implements UserWordDao {
     private final UserWordRepository repository;

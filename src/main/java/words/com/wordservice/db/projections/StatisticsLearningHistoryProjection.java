@@ -1,4 +1,4 @@
-package words.com.wordservice.db.entities.history;
+package words.com.wordservice.db.projections;
 
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 
