@@ -2,6 +2,7 @@ package words.com.wordservice.api.mappers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
@@ -15,13 +16,15 @@ import words.com.wordservice.main.models.filters.WordFilter;
 import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
 import words.com.wordservice.main.models.words.WordDraft;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.util.Collections;
-import java.util.UUID;
 
 
 @Component
+@RequiredArgsConstructor
 public class WordApiMapper {
+    private final IdGenerator idGenerator;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -46,7 +49,7 @@ public class WordApiMapper {
 
     public WordDraft toWordDraft(WordCreateRequest word, User user) {
         return new WordDraft(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 word.original(),
                 word.lang(),
                 word.translate(),

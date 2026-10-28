@@ -13,13 +13,14 @@ import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.main.models.filters.UserWordFilter;
 import words.com.wordservice.main.models.words.*;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.util.Collections;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserWordApiMapper {
+    private final IdGenerator idGenerator;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -44,7 +45,7 @@ public class UserWordApiMapper {
 
     public UserWordCreateDto toModel(User user, UserWordCreateRequest request) {
         return new UserWordCreateDto(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 user.id(),
                 request.customSoundFileName(),
                 request.customImageFileName(),

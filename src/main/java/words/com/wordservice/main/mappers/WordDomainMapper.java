@@ -9,16 +9,17 @@ import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
 import words.com.wordservice.main.models.words.WordDraft;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class WordDomainMapper {
+    private final IdGenerator idGenerator;
     private final FileNameMapper fileNameMapper;
 
     public Word toModel(WordEntity entity) {
@@ -46,7 +47,7 @@ public class WordDomainMapper {
 
     public WordEntity toEntity(WordDraft model) {
         return new WordEntity(
-                StringUtils.hasText(model.id()) ? model.id() : UUID.randomUUID().toString(),
+                StringUtils.hasText(model.id()) ? model.id() : idGenerator.generate(),
                 model.original(),
                 model.lang(),
                 model.translate(),

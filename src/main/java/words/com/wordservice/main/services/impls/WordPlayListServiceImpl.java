@@ -14,6 +14,8 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.searches.PinnedWordSearch;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
+import words.com.wordservice.main.exceptions.PlayListIdsRequiredException;
+import words.com.wordservice.main.exceptions.PlayListsNotFoundException;
 import words.com.wordservice.main.mappers.UserWordDomainMapper;
 import words.com.wordservice.main.mappers.WordPlayListDomainMapper;
 import words.com.wordservice.main.mappers.WordPlayListSearchMapper;
@@ -83,7 +85,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     @Transactional
     public Set<String> assign(Collection<String> playListIds, String userId) {
         if (CollectionUtils.isEmpty(playListIds)) {
-            throw new RuntimeException("playListIds is empty");
+            throw new PlayListIdsRequiredException("playListIds is empty");
         }
         var search = WordPlayListSearch.builder()
                 .ids(playListIds)
@@ -91,7 +93,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
                 .build();
         var entities = dao.findBy(search);
         if (entities.isEmpty()) {
-            throw new RuntimeException("No playlists found to assign");
+            throw new PlayListsNotFoundException("No playlists found to assign");
         }
         var newPlayLists = entities.stream()
                 .map(it -> wordPlayListDomainMapper.toAssignEntity(it, userId))

@@ -11,14 +11,15 @@ import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.main.models.enums.LearningHistoryType;
 import words.com.wordservice.main.models.words.*;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserWordDomainMapper {
+    private final IdGenerator idGenerator;
     private final WordDomainMapper wordDomainMapper;
 
     public UserWord toModel(UserWordEntity entity) {
@@ -35,7 +36,7 @@ public class UserWordDomainMapper {
 
     public UserWordEntity toEntity(UserWordCreateDto model) {
         return new UserWordEntity(
-                StringUtils.hasText(model.id()) ? model.id() : UUID.randomUUID().toString(),
+                StringUtils.hasText(model.id()) ? model.id() : idGenerator.generate(),
                 model.userId(),
                 0,
                 model.soundFileName(),
@@ -48,7 +49,7 @@ public class UserWordDomainMapper {
 
     public UserWordUpsertAction toAction(UserWordLink model) {
         return new UserWordUpsertAction(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 model.userId(),
                 model.wordId(),
                 model.imageFileName(),
@@ -74,7 +75,7 @@ public class UserWordDomainMapper {
 
     public LearningHistoryEntity toLearningHistoryEntity(UserWordEntity entity) {
         return new LearningHistoryEntity(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 entity.getUserId(),
                 entity.getWord().getId(),
                 OffsetDateTime.now(ZoneId.of("UTC")),
@@ -85,7 +86,7 @@ public class UserWordDomainMapper {
 
     public LearningHistoryEntity toLearningHistoryEntity(UserWordCreateDto model) {
         return new LearningHistoryEntity(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 model.userId(),
                 model.word().id(),
                 OffsetDateTime.now(ZoneId.of("UTC")),
@@ -96,7 +97,7 @@ public class UserWordDomainMapper {
 
     public LearningHistoryEntity toLearningHistoryEntity(UserWordLink model) {
         return new LearningHistoryEntity(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 model.userId(),
                 model.wordId(),
 

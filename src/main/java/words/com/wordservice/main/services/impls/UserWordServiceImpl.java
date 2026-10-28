@@ -12,6 +12,7 @@ import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.searches.Operations;
 import words.com.wordservice.db.searches.PinnedWordSearch;
 import words.com.wordservice.db.searches.UserWordSearch;
+import words.com.wordservice.main.exceptions.UserWordNotFoundException;
 import words.com.wordservice.main.mappers.UserWordDomainMapper;
 import words.com.wordservice.main.mappers.UserWordSearchMapper;
 import words.com.wordservice.main.models.enums.WordType;
@@ -90,7 +91,7 @@ class UserWordServiceImpl implements UserWordService {
         var userWordEntity = userWordDao.findBy(search)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("User word not found"));
+                .orElseThrow(() -> new UserWordNotFoundException("User word not found"));
         userWordDao.update(userWordDomainMapper.toEntity(userWordEntity, userWord));
         if (userWordEntity.getWord().getType() == WordType.PUBLIC) {
             return;

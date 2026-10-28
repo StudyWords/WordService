@@ -19,14 +19,15 @@ import words.com.wordservice.main.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.main.models.filters.WordPlayListFilter;
 import words.com.wordservice.main.models.playlist.*;
 import words.com.wordservice.main.services.WordPlayListService;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.util.Collections;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class PlayListApiMapper {
+    private final IdGenerator idGenerator;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -101,7 +102,7 @@ public class PlayListApiMapper {
 
     public PlayListTitle toPlayListTitle(@NonNull User user, PlayListCreateRequest request) {
         return new PlayListTitle(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 user.id(),
                 request.name()
         );

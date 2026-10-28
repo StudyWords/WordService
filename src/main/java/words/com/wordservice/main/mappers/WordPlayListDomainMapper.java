@@ -16,6 +16,7 @@ import words.com.wordservice.main.models.playlist.PlayListTitle;
 import words.com.wordservice.main.models.playlist.WordPlayList;
 import words.com.wordservice.main.models.playlist.WordPlayListCount;
 import words.com.wordservice.main.models.words.PinnedWord;
+import words.com.wordservice.main.utils.IdGenerator;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -25,6 +26,7 @@ import java.util.*;
 @Component
 @RequiredArgsConstructor
 public class WordPlayListDomainMapper {
+    private final IdGenerator idGenerator;
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -119,7 +121,7 @@ public class WordPlayListDomainMapper {
 
     public WordPlayListEntity toAssignEntity(WordPlayListEntity entity, String userId) {
         return new WordPlayListEntity(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 userId,
                 entity.getName(),
                 OffsetDateTime.now(),
@@ -164,7 +166,7 @@ public class WordPlayListDomainMapper {
 
     public LearningHistoryEntity toEntity(PlayListGrade model) {
         return new LearningHistoryEntity(
-                UUID.randomUUID().toString(),
+                idGenerator.generate(),
                 model.userId(),
                 model.wordId(),
                 OffsetDateTime.now(ZoneId.of("UTC")),
@@ -176,7 +178,7 @@ public class WordPlayListDomainMapper {
     public UserWordEntity toUserWordEntity(String userId, WordEntity word) {
         assert word != null : "Word entity is null";
         return UserWordEntity.builder()
-                .id(UUID.randomUUID().toString())
+                .id(idGenerator.generate())
                 .userId(userId)
                 .learningGrade(0L)
                 .createdAt(OffsetDateTime.now())

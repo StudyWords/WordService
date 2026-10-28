@@ -1,7 +1,6 @@
 package words.com.wordservice.db.daos.impls;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 class PlayListDaoImpl implements PlayListDao {
