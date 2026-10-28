@@ -2,8 +2,8 @@ package words.com.wordservice.api.responds.playlist;
 
 import org.springframework.lang.Nullable;
 import words.com.wordservice.api.responds.words.UserWordRespond;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
 
 import java.time.OffsetDateTime;
 import java.util.List;

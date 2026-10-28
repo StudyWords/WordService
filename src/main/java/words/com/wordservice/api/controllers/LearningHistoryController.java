@@ -12,7 +12,7 @@ import words.com.wordservice.api.requests.history.StatisticsLearningHistoryFilte
 import words.com.wordservice.api.responds.history.CountLearningHistoryRespond;
 import words.com.wordservice.api.responds.history.LearningHistoryRespond;
 import words.com.wordservice.api.responds.history.StatisticsLearningHistoryRespond;
-import words.com.wordservice.domain.services.LearningHistoryService;
+import words.com.wordservice.main.services.LearningHistoryService;
 
 @RestController
 @ResponseBody

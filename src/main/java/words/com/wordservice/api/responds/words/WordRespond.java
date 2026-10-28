@@ -1,9 +1,9 @@
 package words.com.wordservice.api.responds.words;
 
 import org.springframework.lang.Nullable;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.WordType;
 
 import java.time.OffsetDateTime;
 

@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Singular;
 import org.springframework.lang.NonNull;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.WordType;
-import words.com.wordservice.domain.models.enums.sortfileds.WordSortField;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.WordType;
+import words.com.wordservice.main.models.enums.sortfields.WordSortField;
 
 import java.util.Collection;
 import java.util.Set;

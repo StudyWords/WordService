@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import words.com.wordservice.api.requests.interfaces.LanguagesGetter;
 import words.com.wordservice.api.valid.annotation.DifferentLanguage;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
 
 @DifferentLanguage(message = "Native language and learning language should be different")
 public record LearningPlanRequest(

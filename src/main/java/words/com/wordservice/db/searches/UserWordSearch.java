@@ -10,9 +10,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.WordEntity;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.WordType;
 
 import java.util.ArrayList;
 import java.util.Collection;

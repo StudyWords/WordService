@@ -6,9 +6,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 import words.com.wordservice.db.converters.CefrTreeSetConverter;
 import words.com.wordservice.db.converters.StringTreeSetConverter;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.PlayListVisibility;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.PlayListVisibility;
 
 import java.time.OffsetDateTime;
 import java.util.TreeSet;

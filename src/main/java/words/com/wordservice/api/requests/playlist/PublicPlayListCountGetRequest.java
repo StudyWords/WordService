@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import words.com.wordservice.api.requests.utils.LongRange;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.sortfields.WordPlaylistSortField;
 
 import java.util.Set;
 

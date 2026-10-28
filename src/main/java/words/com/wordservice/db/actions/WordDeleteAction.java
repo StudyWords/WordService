@@ -1,6 +1,6 @@
 package words.com.wordservice.db.actions;
 
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.WordType;
 
 public record WordDeleteAction(
         String id,

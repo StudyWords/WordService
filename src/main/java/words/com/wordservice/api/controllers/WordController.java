@@ -12,7 +12,7 @@ import words.com.wordservice.api.requests.words.WordCreateRequest;
 import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
 import words.com.wordservice.api.responds.words.WordRespond;
-import words.com.wordservice.domain.services.WordService;
+import words.com.wordservice.main.services.WordService;
 
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package words.com.wordservice.db.projections;
 
 
-import words.com.wordservice.domain.models.enums.LearningHistoryType;
+import words.com.wordservice.main.models.enums.LearningHistoryType;
 
 
 public interface CountLearningHistoryProjection {

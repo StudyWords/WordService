@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.entities.WordPlayListEntity;
-import words.com.wordservice.domain.models.enums.PlayListVisibility;
+import words.com.wordservice.main.models.enums.PlayListVisibility;
 
 import java.util.ArrayList;
 import java.util.Collection;

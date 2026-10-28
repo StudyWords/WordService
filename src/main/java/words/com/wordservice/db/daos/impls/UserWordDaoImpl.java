@@ -13,7 +13,7 @@ import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.db.searches.WordSearch;
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.WordType;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;

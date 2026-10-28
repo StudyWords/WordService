@@ -12,8 +12,8 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.PlayListApiMapper;
 import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.*;
-import words.com.wordservice.domain.models.playlist.DeletePlayList;
-import words.com.wordservice.domain.services.WordPlayListService;
+import words.com.wordservice.main.models.playlist.DeletePlayList;
+import words.com.wordservice.main.services.WordPlayListService;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package words.com.wordservice.api.requests.playlist;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
+import words.com.wordservice.main.models.enums.sortfields.WordPlaylistSortField;
 
 import java.util.Set;
 

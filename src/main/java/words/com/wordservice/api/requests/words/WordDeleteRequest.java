@@ -2,7 +2,7 @@ package words.com.wordservice.api.requests.words;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.WordType;
 
 import java.util.Set;
 

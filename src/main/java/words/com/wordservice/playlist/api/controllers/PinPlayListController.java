@@ -8,10 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.playlist.domain.models.PinPlayListDto;
-import words.com.wordservice.playlist.domain.models.UnPinPlayListDto;
-import words.com.wordservice.playlist.domain.usercase.PinPlayListUseCase;
-import words.com.wordservice.playlist.domain.usercase.UpPinPlayListUseCase;
+import words.com.wordservice.playlist.main.models.PinPlayListDto;
+import words.com.wordservice.playlist.main.models.UnPinPlayListDto;
+import words.com.wordservice.playlist.main.usecases.PinPlayListUseCase;
+import words.com.wordservice.playlist.main.usecases.UpPinPlayListUseCase;
 
 @Validated
 @ResponseBody

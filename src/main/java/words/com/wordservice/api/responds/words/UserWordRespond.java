@@ -1,6 +1,6 @@
 package words.com.wordservice.api.responds.words;
 
-import words.com.wordservice.domain.models.enums.WordType;
+import words.com.wordservice.main.models.enums.WordType;
 
 import java.time.OffsetDateTime;
 

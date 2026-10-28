@@ -11,14 +11,13 @@ import words.com.wordservice.api.requests.history.StatisticsLearningHistoryFilte
 import words.com.wordservice.api.responds.history.CountLearningHistoryRespond;
 import words.com.wordservice.api.responds.history.LearningHistoryRespond;
 import words.com.wordservice.api.responds.history.StatisticsLearningHistoryRespond;
-import words.com.wordservice.domain.models.filters.history.CountLearningHistoryFilter;
-import words.com.wordservice.domain.models.filters.history.LearningHistoryFilter;
-import words.com.wordservice.domain.models.filters.history.StatisticsLearningHistoryFilter;
-import words.com.wordservice.domain.models.history.CountLearningHistory;
-import words.com.wordservice.domain.models.history.LearningHistory;
-import words.com.wordservice.domain.models.history.StatisticsLearningHistory;
+import words.com.wordservice.main.models.filters.history.CountLearningHistoryFilter;
+import words.com.wordservice.main.models.filters.history.LearningHistoryFilter;
+import words.com.wordservice.main.models.filters.history.StatisticsLearningHistoryFilter;
+import words.com.wordservice.main.models.history.CountLearningHistory;
+import words.com.wordservice.main.models.history.LearningHistory;
+import words.com.wordservice.main.models.history.StatisticsLearningHistory;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @Component

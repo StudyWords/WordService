@@ -11,8 +11,8 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.words.*;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
-import words.com.wordservice.domain.models.filters.UserWordFilter;
-import words.com.wordservice.domain.models.words.*;
+import words.com.wordservice.main.models.filters.UserWordFilter;
+import words.com.wordservice.main.models.words.*;
 
 import java.util.Collections;
 import java.util.UUID;

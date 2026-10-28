@@ -3,10 +3,10 @@ package words.com.wordservice.api.mappers;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.pins.PinPlayRequest;
-import words.com.wordservice.domain.models.pins.PinOptions;
-import words.com.wordservice.domain.models.pins.PinnedWordId;
-import words.com.wordservice.domain.models.pins.UnpinOptions;
-import words.com.wordservice.domain.models.playlist.PinPlayList;
+import words.com.wordservice.main.models.pins.PinOptions;
+import words.com.wordservice.main.models.pins.PinnedWordId;
+import words.com.wordservice.main.models.pins.UnpinOptions;
+import words.com.wordservice.main.models.playlist.PinPlayList;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;

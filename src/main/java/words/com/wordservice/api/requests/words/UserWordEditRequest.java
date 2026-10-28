@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 import org.springframework.lang.Nullable;
 import words.com.wordservice.api.valid.annotation.NullableNotBlank;
 import words.com.wordservice.api.valid.annotation.NullableSize;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
 
 public record UserWordEditRequest(
         @NotBlank(message = "Id is required")

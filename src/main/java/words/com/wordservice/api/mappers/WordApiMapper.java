@@ -10,11 +10,11 @@ import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
 import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
-import words.com.wordservice.domain.models.enums.WordType;
-import words.com.wordservice.domain.models.filters.WordFilter;
-import words.com.wordservice.domain.models.words.ModifyWord;
-import words.com.wordservice.domain.models.words.Word;
-import words.com.wordservice.domain.models.words.WordDeleteDto;
+import words.com.wordservice.main.models.enums.WordType;
+import words.com.wordservice.main.models.filters.WordFilter;
+import words.com.wordservice.main.models.words.ModifyWord;
+import words.com.wordservice.main.models.words.Word;
+import words.com.wordservice.main.models.words.WordDeleteDto;
 
 import java.util.Collections;
 import java.util.UUID;

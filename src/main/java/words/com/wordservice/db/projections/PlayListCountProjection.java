@@ -1,6 +1,6 @@
 package words.com.wordservice.db.projections;
 
-import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.main.models.enums.Language;
 
 import java.time.Instant;
 

@@ -2,7 +2,7 @@ package words.com.wordservice.db.converters;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import words.com.wordservice.domain.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.CEFR;
 
 @Converter(autoApply = false)
 public class CEFRConverter implements AttributeConverter<CEFR, String> {

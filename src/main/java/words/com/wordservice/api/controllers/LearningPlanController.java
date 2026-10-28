@@ -10,7 +10,7 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.LearningPlanApiMapper;
 import words.com.wordservice.api.requests.plan.LearningPlanRequest;
 import words.com.wordservice.api.responds.plan.LearningPlanRespond;
-import words.com.wordservice.domain.services.LearningPlanService;
+import words.com.wordservice.main.services.LearningPlanService;
 
 @ResponseBody
 @RestController

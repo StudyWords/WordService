@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.PinPlayListApiMapper;
 import words.com.wordservice.api.requests.pins.PinPlayRequest;
-import words.com.wordservice.domain.services.PinPlayListService;
+import words.com.wordservice.main.services.PinPlayListService;
 
 import java.util.List;
 

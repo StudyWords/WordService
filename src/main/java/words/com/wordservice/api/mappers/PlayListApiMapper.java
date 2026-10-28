@@ -14,11 +14,11 @@ import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
 import words.com.wordservice.api.responds.playlist.PublicPlayListCountRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
-import words.com.wordservice.domain.models.enums.PlayListVisibility;
-import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
-import words.com.wordservice.domain.models.filters.WordPlayListFilter;
-import words.com.wordservice.domain.models.playlist.*;
-import words.com.wordservice.domain.services.WordPlayListService;
+import words.com.wordservice.main.models.enums.PlayListVisibility;
+import words.com.wordservice.main.models.filters.WordPlayListCountFilter;
+import words.com.wordservice.main.models.filters.WordPlayListFilter;
+import words.com.wordservice.main.models.playlist.*;
+import words.com.wordservice.main.services.WordPlayListService;
 
 import java.util.Collections;
 import java.util.UUID;

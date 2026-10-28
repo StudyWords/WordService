@@ -2,10 +2,10 @@ package words.com.wordservice.api.requests.words;
 
 import jakarta.validation.constraints.Min;
 import lombok.Singular;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.WordType;
-import words.com.wordservice.domain.models.enums.sortfileds.UserWordSortField;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.WordType;
+import words.com.wordservice.main.models.enums.sortfields.UserWordSortField;
 
 import java.util.Collection;
 

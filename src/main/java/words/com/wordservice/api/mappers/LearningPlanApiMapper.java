@@ -3,7 +3,7 @@ package words.com.wordservice.api.mappers;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.api.requests.plan.LearningPlanRequest;
 import words.com.wordservice.api.responds.plan.LearningPlanRespond;
-import words.com.wordservice.domain.models.LearningPlan;
+import words.com.wordservice.main.models.LearningPlan;
 
 import java.time.OffsetDateTime;
 

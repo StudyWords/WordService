@@ -2,9 +2,9 @@ package words.com.wordservice.db.searches;
 
 import lombok.Builder;
 import lombok.Singular;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.PlayListVisibility;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.PlayListVisibility;
 import words.com.wordservice.utils.Range;
 
 import java.util.Collection;

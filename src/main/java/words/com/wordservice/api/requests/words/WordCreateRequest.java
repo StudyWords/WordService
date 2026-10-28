@@ -8,8 +8,8 @@ import words.com.wordservice.api.requests.interfaces.LanguagesGetter;
 import words.com.wordservice.api.valid.annotation.DifferentLanguage;
 import words.com.wordservice.api.valid.annotation.NullableNotBlank;
 import words.com.wordservice.api.valid.annotation.NullableSize;
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
 
 @DifferentLanguage
 public record WordCreateRequest(

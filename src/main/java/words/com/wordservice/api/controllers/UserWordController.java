@@ -9,7 +9,7 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.UserWordApiMapper;
 import words.com.wordservice.api.requests.words.*;
 import words.com.wordservice.api.responds.words.UserWordRespond;
-import words.com.wordservice.domain.services.UserWordService;
+import words.com.wordservice.main.services.UserWordService;
 
 import java.util.List;
 import java.util.Set;

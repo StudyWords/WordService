@@ -1,8 +1,8 @@
 package words.com.wordservice.api.responds.history;
 
-import words.com.wordservice.domain.models.enums.CEFR;
-import words.com.wordservice.domain.models.enums.Language;
-import words.com.wordservice.domain.models.enums.LearningHistoryType;
+import words.com.wordservice.main.models.enums.CEFR;
+import words.com.wordservice.main.models.enums.Language;
+import words.com.wordservice.main.models.enums.LearningHistoryType;
 
 import java.time.LocalDate;
 
