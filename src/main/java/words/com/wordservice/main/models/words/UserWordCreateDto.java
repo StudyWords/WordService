@@ -10,7 +10,7 @@ public record UserWordCreateDto(
 
         String soundFileName,
         String imageFileName,
-        ModifyWord word
+        WordDraft word
 ) {
 
 }

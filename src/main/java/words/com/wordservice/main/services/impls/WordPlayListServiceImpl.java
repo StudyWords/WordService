@@ -64,7 +64,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public void saveAll(Collection<ModifyPlayList> playLists) {
+    public void saveAll(Collection<PlayListTitle> playLists) {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toEntity)
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public void updateAll(Collection<ModifyPlayList> playLists) {
+    public void updateAll(Collection<PlayListTitle> playLists) {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toUpdateEntity)
                 .collect(Collectors.toList());
@@ -175,10 +175,10 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public void delete(DeletePlayList deletePlayList) {
+    public void delete(UserPlayLists playLists) {
         var search = WordPlayListSearch.builder()
-                .userId(deletePlayList.userId())
-                .ids(deletePlayList.ids())
+                .userId(playLists.userId())
+                .ids(playLists.ids())
                 .build();
         dao.delete(search);
     }

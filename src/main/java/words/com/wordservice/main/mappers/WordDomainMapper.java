@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.WordDeleteAction;
 import words.com.wordservice.db.entities.WordEntity;
-import words.com.wordservice.main.models.words.ModifyWord;
 import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
+import words.com.wordservice.main.models.words.WordDraft;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
@@ -44,7 +44,7 @@ public class WordDomainMapper {
         );
     }
 
-    public WordEntity toEntity(ModifyWord model) {
+    public WordEntity toEntity(WordDraft model) {
         return new WordEntity(
                 StringUtils.hasText(model.id()) ? model.id() : UUID.randomUUID().toString(),
                 model.original(),

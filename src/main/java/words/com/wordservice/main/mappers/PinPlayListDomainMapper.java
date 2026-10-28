@@ -7,9 +7,9 @@ import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.entities.PinnedWordEntity;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
-import words.com.wordservice.main.models.pins.PinOptions;
 import words.com.wordservice.main.models.pins.PinnedWordId;
-import words.com.wordservice.main.models.playlist.PinPlayList;
+import words.com.wordservice.main.models.pins.UserPins;
+import words.com.wordservice.main.models.playlist.PlayListWord;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;
@@ -27,22 +27,22 @@ public class PinPlayListDomainMapper {
         return new PinnedWordEntity.PinnedWordId(id.playListId(), id.userWordId());
     }
 
-    public List<PinnedWordEntity> toEntities(PinOptions options) {
-        if (CollectionUtils.isEmpty(options.pins())) {
+    public List<PinnedWordEntity> toEntities(UserPins userPins) {
+        if (CollectionUtils.isEmpty(userPins.pins())) {
             return Collections.emptyList();
         }
-        var userWordIds = options.pins().stream().map(PinPlayList::wordId).toList();
-        var search = UserWordSearch.builder().userWordIds(userWordIds).userId(options.userId()).build();
+        var userWordIds = userPins.pins().stream().map(PlayListWord::wordId).toList();
+        var search = UserWordSearch.builder().userWordIds(userWordIds).userId(userPins.userId()).build();
         var entities = userWordDao.findBy(search);
         var userWordById = entities.stream().collect(Collectors.toMap(UserWordEntity::getId, Function.identity()));
 
-        return options.pins().stream()
+        return userPins.pins().stream()
                 .map(pin -> toEntity(pin, userWordById))
                 .filter(it -> it.getWord() != null)
                 .toList();
     }
 
-    private PinnedWordEntity toEntity(PinPlayList pin, Map<String, UserWordEntity> userWordById) {
+    private PinnedWordEntity toEntity(PlayListWord pin, Map<String, UserWordEntity> userWordById) {
         var id = new PinnedWordEntity.PinnedWordId(pin.playListId(), pin.wordId());
 
         return new PinnedWordEntity(

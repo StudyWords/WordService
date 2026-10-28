@@ -62,7 +62,7 @@ class UserWordServiceImpl implements UserWordService {
 
     @Override
     @Transactional
-    public List<UserWord> savePins(Collection<PinUserWord> userWords) {
+    public List<UserWord> savePins(Collection<UserWordLink> userWords) {
         var actions = userWords.stream()
                 .map(userWordDomainMapper::toAction)
                 .toList();

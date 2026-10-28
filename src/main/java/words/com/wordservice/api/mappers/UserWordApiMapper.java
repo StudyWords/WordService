@@ -48,12 +48,12 @@ public class UserWordApiMapper {
                 user.id(),
                 request.customSoundFileName(),
                 request.customImageFileName(),
-                wordApiMapper.toModifyWord(request.word(),user)
+                wordApiMapper.toWordDraft(request.word(), user)
         );
     }
 
-    public PinUserWord toModel(User user, UserWordPinRequest request) {
-        return new PinUserWord(
+    public UserWordLink toModel(User user, UserWordPinRequest request) {
+        return new UserWordLink(
                 user.id(),
                 request.wordId(),
                 request.customSoundFileName(),

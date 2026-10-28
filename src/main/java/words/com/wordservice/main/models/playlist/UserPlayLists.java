@@ -1,13 +1,9 @@
 package words.com.wordservice.main.models.playlist;
 
+import java.util.List;
 
-public record ModifyPlayList(
-        String id,
+public record UserPlayLists(
         String userId,
-        String name
+        List<String> ids
 ) {
-
 }
-
-
-

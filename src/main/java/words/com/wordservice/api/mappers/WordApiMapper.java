@@ -12,9 +12,9 @@ import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.main.models.enums.WordType;
 import words.com.wordservice.main.models.filters.WordFilter;
-import words.com.wordservice.main.models.words.ModifyWord;
 import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
+import words.com.wordservice.main.models.words.WordDraft;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -44,8 +44,8 @@ public class WordApiMapper {
     }
 
 
-    public ModifyWord toModifyWord(WordCreateRequest word, User user) {
-        return new ModifyWord(
+    public WordDraft toWordDraft(WordCreateRequest word, User user) {
+        return new WordDraft(
                 UUID.randomUUID().toString(),
                 word.original(),
                 word.lang(),

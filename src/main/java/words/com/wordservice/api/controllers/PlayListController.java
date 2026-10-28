@@ -12,7 +12,7 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.PlayListApiMapper;
 import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.*;
-import words.com.wordservice.main.models.playlist.DeletePlayList;
+import words.com.wordservice.main.models.playlist.UserPlayLists;
 import words.com.wordservice.main.services.WordPlayListService;
 
 import java.util.List;
@@ -111,7 +111,7 @@ public class PlayListController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid @NotEmpty List<PlayListCreateRequest> playLists) {
         var models = playLists.stream().map( it ->
-                playListApiMapper.toModifyPlayList(user, it)
+                playListApiMapper.toPlayListTitle(user, it)
         ).toList();
         wordPlayListService.saveAll(models);
     }
@@ -121,7 +121,7 @@ public class PlayListController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid List<PlayListUpdateRequest> playLists) {
         var models = playLists.stream()
-                .map(it -> playListApiMapper.toModifyPlayList(user, it))
+                .map(it -> playListApiMapper.toPlayListTitle(user, it))
                 .toList();
         wordPlayListService.updateAll(models);
     }
@@ -137,6 +137,6 @@ public class PlayListController {
 
     @DeleteMapping("/delete")
     public void delete(@AuthenticationPrincipal User user, @RequestParam List<String> ids) {
-        wordPlayListService.delete(new DeletePlayList(user.id(), ids));
+        wordPlayListService.delete(new UserPlayLists(user.id(), ids));
     }
 }

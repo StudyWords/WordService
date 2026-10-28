@@ -35,7 +35,7 @@ public class WordController {
     @PostMapping
     void save(@AuthenticationPrincipal User user, @RequestBody @Valid @NotEmpty Set<WordCreateRequest> words) {
         var models =  words.stream()
-                .map(it -> wordApiMapper.toModifyWord(it, user))
+                .map(it -> wordApiMapper.toWordDraft(it, user))
                 .toList();
         wordService.saveAll(models);
     }

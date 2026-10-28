@@ -1,9 +1,13 @@
 package words.com.wordservice.main.models.playlist;
 
-import java.util.List;
 
-public record DeletePlayList(
+public record PlayListTitle(
+        String id,
         String userId,
-        List<String> ids
+        String name
 ) {
+
 }
+
+
+

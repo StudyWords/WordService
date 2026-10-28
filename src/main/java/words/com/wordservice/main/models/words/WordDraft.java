@@ -7,7 +7,7 @@ import words.com.wordservice.main.models.enums.Language;
 import words.com.wordservice.main.models.enums.WordType;
 
 @Builder(toBuilder = true)
-public record ModifyWord(
+public record WordDraft(
         String id,
         String original,
         Language lang,

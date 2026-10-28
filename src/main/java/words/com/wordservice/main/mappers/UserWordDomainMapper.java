@@ -46,7 +46,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UserWordUpsertAction toAction(PinUserWord model) {
+    public UserWordUpsertAction toAction(UserWordLink model) {
         return new UserWordUpsertAction(
                 UUID.randomUUID().toString(),
                 model.userId(),
@@ -94,7 +94,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public LearningHistoryEntity toLearningHistoryEntity(PinUserWord model) {
+    public LearningHistoryEntity toLearningHistoryEntity(UserWordLink model) {
         return new LearningHistoryEntity(
                 UUID.randomUUID().toString(),
                 model.userId(),

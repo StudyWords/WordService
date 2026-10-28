@@ -11,8 +11,8 @@ import words.com.wordservice.db.projections.PlayListCountProjection;
 import words.com.wordservice.main.models.enums.CEFR;
 import words.com.wordservice.main.models.enums.LearningHistoryType;
 import words.com.wordservice.main.models.enums.PlayListVisibility;
-import words.com.wordservice.main.models.playlist.ModifyPlayList;
 import words.com.wordservice.main.models.playlist.PlayListGrade;
+import words.com.wordservice.main.models.playlist.PlayListTitle;
 import words.com.wordservice.main.models.playlist.WordPlayList;
 import words.com.wordservice.main.models.playlist.WordPlayListCount;
 import words.com.wordservice.main.models.words.PinnedWord;
@@ -99,7 +99,7 @@ public class WordPlayListDomainMapper {
         );
     }
 
-    public WordPlayListEntity toEntity(ModifyPlayList model) {
+    public WordPlayListEntity toEntity(PlayListTitle model) {
         return new WordPlayListEntity(
                 model.id(),
                 model.userId(),
@@ -136,7 +136,7 @@ public class WordPlayListDomainMapper {
     }
 
 
-    public WordPlayListEntity toUpdateEntity(ModifyPlayList model) {
+    public WordPlayListEntity toUpdateEntity(PlayListTitle model) {
         return new WordPlayListEntity(
                 model.id(),
                 model.userId(),

@@ -3,7 +3,7 @@ package words.com.wordservice.main.models.playlist;
 import java.time.OffsetDateTime;
 
 
-public record PinPlayList(
+public record PlayListWord(
         String playListId,
         String wordId,
         Long learningGrade,

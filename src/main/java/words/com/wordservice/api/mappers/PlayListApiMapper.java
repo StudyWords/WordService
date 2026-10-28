@@ -91,16 +91,16 @@ public class PlayListApiMapper {
         return objectMapper.convertValue(model, PlayListRespond.class);
     }
 
-    public ModifyPlayList toModifyPlayList(@NonNull User user, @NonNull PlayListUpdateRequest request) {
-        return new ModifyPlayList(
+    public PlayListTitle toPlayListTitle(@NonNull User user, @NonNull PlayListUpdateRequest request) {
+        return new PlayListTitle(
                 request.id(),
                 user.id(),
                 request.name()
         );
     }
 
-    public ModifyPlayList toModifyPlayList(@NonNull User user, PlayListCreateRequest request) {
-        return new ModifyPlayList(
+    public PlayListTitle toPlayListTitle(@NonNull User user, PlayListCreateRequest request) {
+        return new PlayListTitle(
                 UUID.randomUUID().toString(),
                 user.id(),
                 request.name()

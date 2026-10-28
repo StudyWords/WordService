@@ -10,9 +10,9 @@ import words.com.wordservice.db.searches.WordSearch;
 import words.com.wordservice.main.mappers.WordDomainMapper;
 import words.com.wordservice.main.mappers.WordSearchMapper;
 import words.com.wordservice.main.models.filters.WordFilter;
-import words.com.wordservice.main.models.words.ModifyWord;
 import words.com.wordservice.main.models.words.Word;
 import words.com.wordservice.main.models.words.WordDeleteDto;
+import words.com.wordservice.main.models.words.WordDraft;
 import words.com.wordservice.main.services.WordService;
 
 import java.util.Collection;
@@ -33,12 +33,12 @@ class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void saveAll(Collection<ModifyWord> words) {
+    public void saveAll(Collection<WordDraft> words) {
         if (CollectionUtils.isEmpty(words)) {
             return;
         }
         var originals = words.stream()
-                .map(ModifyWord::original)
+                .map(WordDraft::original)
                 .filter(StringUtils::hasText)
                 .distinct()
                 .toList();
@@ -65,7 +65,7 @@ class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void updateAll(Collection<ModifyWord> words) {
+    public void updateAll(Collection<WordDraft> words) {
         var entities = words.stream()
                 .map(wordDomainMapper::toEntity)
                 .toList();

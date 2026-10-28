@@ -16,9 +16,9 @@ public interface WordPlayListService {
 
     Page<WordPlayListCount> findBy(WordPlayListCountFilter filter);
 
-    void saveAll(Collection<ModifyPlayList> playLists);
+    void saveAll(Collection<PlayListTitle> playLists);
 
-    void updateAll(Collection<ModifyPlayList> playLists);
+    void updateAll(Collection<PlayListTitle> playLists);
 
     Set<String> assignPlaylists(Collection<String> playListIds, String userId);
 
@@ -26,7 +26,7 @@ public interface WordPlayListService {
 
     void updateGrades(Collection<PlayListGrade> grades);
 
-    void delete(DeletePlayList deletePlayList);
+    void delete(UserPlayLists playLists);
 
     Optional<WordPlayListCount> getRandomPlaylist(String userId);
 }

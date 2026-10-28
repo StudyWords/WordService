@@ -1,11 +1,11 @@
 package words.com.wordservice.main.services;
 
-import words.com.wordservice.main.models.pins.PinOptions;
-import words.com.wordservice.main.models.pins.UnpinOptions;
+import words.com.wordservice.main.models.pins.UserPinIds;
+import words.com.wordservice.main.models.pins.UserPins;
 
 public interface PinPlayListService {
 
-    void pin(PinOptions options);
+    void pin(UserPins userPins);
 
-    void unpin(UnpinOptions options);
+    void unpin(UserPinIds userPins);
 }

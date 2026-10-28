@@ -28,7 +28,7 @@ public class PinController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid List<PinPlayRequest> requests
     ){
-        pinService.pin(pinPlayListApiMapper.toPinOptions(user, requests));
+        pinService.pin(pinPlayListApiMapper.toUserPins(user, requests));
     }
 
     @PostMapping("/unpin")
@@ -36,6 +36,6 @@ public class PinController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid List<PinPlayRequest> requests
     ){
-        pinService.unpin(pinPlayListApiMapper.toUnpinOptions(user, requests));
+        pinService.unpin(pinPlayListApiMapper.toUserPinIds(user, requests));
     }
 }
