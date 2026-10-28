@@ -37,7 +37,7 @@ public class WordController {
         var models =  words.stream()
                 .map(it -> wordApiMapper.toWordDraft(it, user))
                 .toList();
-        wordService.saveAll(models);
+        wordService.save(models);
     }
 
     @DeleteMapping

@@ -38,7 +38,7 @@ public class PlayListApiMapper {
         DecodeUtils.decode(builder::name, getRequest::name);
 
         if (user != null) {
-            var assignedPlayListIds = wordPlayListService.getAssignedPlaylists(user.id())
+            var assignedPlayListIds = wordPlayListService.findAssigned(user.id())
                     .stream().map(AssignedPlaylist::id).collect(Collectors.toSet());
             builder.notInIds(assignedPlayListIds);
         }

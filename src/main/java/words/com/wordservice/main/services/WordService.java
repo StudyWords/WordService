@@ -11,9 +11,9 @@ import java.util.Collection;
 public interface WordService {
     Page<Word> findBy(WordFilter filter);
 
-    void saveAll(Collection<WordDraft> words);
+    void save(Collection<WordDraft> words);
 
-    void updateAll(Collection<WordDraft> words);
+    void update(Collection<WordDraft> words);
 
     void delete(WordDeleteDto options);
 }

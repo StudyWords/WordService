@@ -64,7 +64,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public void saveAll(Collection<PlayListTitle> playLists) {
+    public void save(Collection<PlayListTitle> playLists) {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toEntity)
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public void updateAll(Collection<PlayListTitle> playLists) {
+    public void update(Collection<PlayListTitle> playLists) {
         var entities = playLists.stream()
                 .map(wordPlayListDomainMapper::toUpdateEntity)
                 .collect(Collectors.toList());
@@ -81,7 +81,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
 
     @Override
     @Transactional
-    public Set<String> assignPlaylists(Collection<String> playListIds, String userId) {
+    public Set<String> assign(Collection<String> playListIds, String userId) {
         if (CollectionUtils.isEmpty(playListIds)) {
             throw new RuntimeException("playListIds is empty");
         }
@@ -147,7 +147,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public Set<AssignedPlaylist> getAssignedPlaylists(String userId) {
+    public Set<AssignedPlaylist> findAssigned(String userId) {
         var search = WordPlayListSearch.builder()
                 .userId(userId)
                 .hasBaseId(true)
@@ -170,7 +170,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     }
 
     @Override
-    public Optional<WordPlayListCount> getRandomPlaylist(String userId) {
+    public Optional<WordPlayListCount> findRandom(String userId) {
         return dao.findRandomByUserId(userId).map(wordPlayListDomainMapper::toModel);
     }
 

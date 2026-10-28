@@ -13,7 +13,7 @@ public interface UserWordService {
 
     void save(Collection<UserWordCreateDto> userWords);
 
-    List<UserWord> savePins(Collection<UserWordLink> userWords);
+    List<UserWord> link(Collection<UserWordLink> userWords);
 
     void update(UserWordEditDto userWord);
 

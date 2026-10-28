@@ -78,7 +78,7 @@ public class PlayListController {
     public ResponseEntity<PlayListCountRespond> getRandomPlayList(
             @AuthenticationPrincipal User user
     ) {
-        return wordPlayListService.getRandomPlaylist(user.id())
+        return wordPlayListService.findRandom(user.id())
                 .map(playListApiMapper::toRespond)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -88,7 +88,7 @@ public class PlayListController {
     public List<AssignedPlaylistRespond> getAssignedPlayLists(
             @AuthenticationPrincipal User user
     ) {
-        return wordPlayListService.getAssignedPlaylists(user.id())
+        return wordPlayListService.findAssigned(user.id())
                 .stream()
                 .map(playListApiMapper::toAssignedRespond)
                 .toList();
@@ -98,7 +98,7 @@ public class PlayListController {
     public List<PlaylistIdRespond> assignPlayLists(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid AssignPlayListsRequest request) {
-        return wordPlayListService.assignPlaylists(request.playListIds(), user.id())
+        return wordPlayListService.assign(request.playListIds(), user.id())
                 .stream()
                 .map(PlaylistIdRespond::new)
                 .toList();
@@ -113,7 +113,7 @@ public class PlayListController {
         var models = playLists.stream().map( it ->
                 playListApiMapper.toPlayListTitle(user, it)
         ).toList();
-        wordPlayListService.saveAll(models);
+        wordPlayListService.save(models);
     }
 
     @PutMapping
@@ -123,7 +123,7 @@ public class PlayListController {
         var models = playLists.stream()
                 .map(it -> playListApiMapper.toPlayListTitle(user, it))
                 .toList();
-        wordPlayListService.updateAll(models);
+        wordPlayListService.update(models);
     }
 
     @PutMapping("/grades")

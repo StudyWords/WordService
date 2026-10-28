@@ -33,7 +33,7 @@ class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void saveAll(Collection<WordDraft> words) {
+    public void save(Collection<WordDraft> words) {
         if (CollectionUtils.isEmpty(words)) {
             return;
         }
@@ -65,7 +65,7 @@ class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void updateAll(Collection<WordDraft> words) {
+    public void update(Collection<WordDraft> words) {
         var entities = words.stream()
                 .map(wordDomainMapper::toEntity)
                 .toList();

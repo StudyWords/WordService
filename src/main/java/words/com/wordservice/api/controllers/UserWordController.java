@@ -40,7 +40,7 @@ public class UserWordController {
     @PostMapping("pin")
     public List<UserWordRespond> savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<UserWordPinRequest> requests) {
         var models = requests.stream().map(it -> userWordApiMapper.toModel(user,it)).toList();
-        return userWordService.savePins(models)
+        return userWordService.link(models)
                 .stream()
                 .map(userWordApiMapper::toRespond)
                 .toList();

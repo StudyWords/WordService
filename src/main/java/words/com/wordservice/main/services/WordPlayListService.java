@@ -16,17 +16,17 @@ public interface WordPlayListService {
 
     Page<WordPlayListCount> findBy(WordPlayListCountFilter filter);
 
-    void saveAll(Collection<PlayListTitle> playLists);
+    void save(Collection<PlayListTitle> playLists);
 
-    void updateAll(Collection<PlayListTitle> playLists);
+    void update(Collection<PlayListTitle> playLists);
 
-    Set<String> assignPlaylists(Collection<String> playListIds, String userId);
+    Set<String> assign(Collection<String> playListIds, String userId);
 
-    Set<AssignedPlaylist> getAssignedPlaylists(String userId);
+    Set<AssignedPlaylist> findAssigned(String userId);
 
     void updateGrades(Collection<PlayListGrade> grades);
 
     void delete(UserPlayLists playLists);
 
-    Optional<WordPlayListCount> getRandomPlaylist(String userId);
+    Optional<WordPlayListCount> findRandom(String userId);
 }
