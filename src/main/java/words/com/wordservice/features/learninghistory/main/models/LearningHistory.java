@@ -1,9 +1,9 @@
 package words.com.wordservice.features.learninghistory.main.models;
 
 import lombok.Builder;
-import words.com.wordservice.features.learninghistory.main.enums.LearningHistoryType;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.shared.main.enums.Language;
+import words.com.wordservice.features.shared.main.enums.LearningHistoryType;
 
 import java.time.LocalDate;
 

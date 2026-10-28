@@ -1,6 +1,6 @@
 package words.com.wordservice.features.learninghistory.main.models;
 
-import words.com.wordservice.features.learninghistory.main.enums.LearningHistoryType;
+import words.com.wordservice.features.shared.main.enums.LearningHistoryType;
 
 import java.time.LocalDate;
 

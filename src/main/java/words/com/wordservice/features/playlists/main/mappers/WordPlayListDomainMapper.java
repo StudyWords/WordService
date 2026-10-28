@@ -2,8 +2,6 @@ package words.com.wordservice.features.playlists.main.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.main.enums.LearningHistoryType;
 import words.com.wordservice.features.playlists.db.entities.WordPlayListEntity;
 import words.com.wordservice.features.playlists.db.projections.PlayListCountProjection;
 import words.com.wordservice.features.playlists.main.enums.PlayListVisibility;
@@ -12,6 +10,8 @@ import words.com.wordservice.features.playlists.main.models.PlayListTitle;
 import words.com.wordservice.features.playlists.main.models.WordPlayList;
 import words.com.wordservice.features.playlists.main.models.WordPlayListCount;
 import words.com.wordservice.features.shared.main.enums.CEFR;
+import words.com.wordservice.features.shared.main.enums.LearningHistoryType;
+import words.com.wordservice.features.shared.main.events.LearningHistoryEvent;
 import words.com.wordservice.features.shared.utils.IdGenerator;
 import words.com.wordservice.features.shared.utils.ModelUtils;
 import words.com.wordservice.features.words.db.actions.UserWordGradeUpdateAction;
@@ -164,14 +164,13 @@ public class WordPlayListDomainMapper {
         );
     }
 
-    public LearningHistoryEntity toEntity(PlayListGrade model) {
-        return new LearningHistoryEntity(
-                idGenerator.generate(),
+    public LearningHistoryEvent.Entry toHistoryEntry(PlayListGrade model) {
+        return new LearningHistoryEvent.Entry(
                 model.userId(),
                 model.wordId(),
-                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.UPDATE,
-                model.wordGrade()
+                model.wordGrade(),
+                OffsetDateTime.now(ZoneId.of("UTC"))
         );
     }
 

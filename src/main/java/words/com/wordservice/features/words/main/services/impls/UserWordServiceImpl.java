@@ -1,10 +1,11 @@
 package words.com.wordservice.features.words.main.services.impls;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import words.com.wordservice.features.learninghistory.db.daos.LearningHistoryDao;
+import words.com.wordservice.features.shared.main.events.LearningHistoryEvent;
 import words.com.wordservice.features.words.db.actions.UserWordUpsertAction;
 import words.com.wordservice.features.words.db.daos.PinnedWordDao;
 import words.com.wordservice.features.words.db.daos.UserWordDao;
@@ -31,7 +32,7 @@ class UserWordServiceImpl implements UserWordService {
     private final UserWordDao userWordDao;
     private final UserWordDomainMapper userWordDomainMapper;
     private final UserWordSearchMapper userWordSearchMapper;
-    private final LearningHistoryDao learningHistoryDao;
+    private final ApplicationEventPublisher eventPublisher;
     private final PinnedWordDao pinnedWordDao;
 
     @Override
@@ -56,10 +57,10 @@ class UserWordServiceImpl implements UserWordService {
         wordDao.save(wordEntities);
         userWordDao.save(userWordEntities);
 
-        var historyEntities = userWords.stream()
-                .map(userWordDomainMapper::toLearningHistoryEntity)
+        var historyEntries = userWords.stream()
+                .map(userWordDomainMapper::toHistoryEntry)
                 .toList();
-        learningHistoryDao.save(historyEntities);
+        eventPublisher.publishEvent(new LearningHistoryEvent(historyEntries));
     }
 
     @Override
@@ -70,10 +71,10 @@ class UserWordServiceImpl implements UserWordService {
                 .toList();
         userWordDao.upsertAll(actions);
 
-        var historyEntities = userWords.stream()
-                .map(userWordDomainMapper::toLearningHistoryEntity)
+        var historyEntries = userWords.stream()
+                .map(userWordDomainMapper::toHistoryEntry)
                 .toList();
-        learningHistoryDao.save(historyEntities);
+        eventPublisher.publishEvent(new LearningHistoryEvent(historyEntries));
         var ids = actions.stream().map(UserWordUpsertAction::id).toList();
         if (ids.isEmpty()) {
             return Collections.emptyList();

@@ -1,11 +1,11 @@
 package words.com.wordservice.features.playlists.main.services.impls;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import words.com.wordservice.features.learninghistory.db.daos.LearningHistoryDao;
 import words.com.wordservice.features.playlists.db.daos.PlayListDao;
 import words.com.wordservice.features.playlists.db.entities.WordPlayListEntity;
 import words.com.wordservice.features.playlists.db.searches.WordPlayListSearch;
@@ -16,6 +16,7 @@ import words.com.wordservice.features.playlists.main.mappers.WordPlayListDomainM
 import words.com.wordservice.features.playlists.main.mappers.WordPlayListSearchMapper;
 import words.com.wordservice.features.playlists.main.models.*;
 import words.com.wordservice.features.playlists.main.services.WordPlayListService;
+import words.com.wordservice.features.shared.main.events.LearningHistoryEvent;
 import words.com.wordservice.features.words.db.daos.PinnedWordDao;
 import words.com.wordservice.features.words.db.daos.UserWordDao;
 import words.com.wordservice.features.words.db.entities.PinnedWordEntity;
@@ -34,7 +35,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     private final PlayListDao dao;
     private final PinnedWordDao pinnedWordDao;
     private final WordPlayListDomainMapper wordPlayListDomainMapper;
-    private final LearningHistoryDao learningHistoryDao;
+    private final ApplicationEventPublisher eventPublisher;
     private final UserWordDao userWordDao;
     private final UserWordDomainMapper userWordDomainMapper;
 
@@ -134,14 +135,14 @@ class WordPlayListServiceImpl implements WordPlayListService {
             newPinnedWords.add(newPin);
         }
 
-        var historyEntities = newUserWords.stream()
-                .map(userWordDomainMapper::toLearningHistoryEntity)
+        var historyEntries = newUserWords.stream()
+                .map(userWordDomainMapper::toHistoryEntry)
                 .toList();
 
         dao.save(newPlayLists);
         userWordDao.save(newUserWords);
         pinnedWordDao.save(newPinnedWords);
-        learningHistoryDao.save(historyEntities);
+        eventPublisher.publishEvent(new LearningHistoryEvent(historyEntries));
 
         return newPlayLists.stream()
                 .map(WordPlayListEntity::getId)
@@ -164,9 +165,8 @@ class WordPlayListServiceImpl implements WordPlayListService {
     @Override
     @Transactional
     public void updateGrades(Collection<PlayListGrade> grades) {
-        learningHistoryDao.save(
-                grades.stream().map(wordPlayListDomainMapper::toEntity).toList()
-        );
+        var historyEntries = grades.stream().map(wordPlayListDomainMapper::toHistoryEntry).toList();
+        eventPublisher.publishEvent(new LearningHistoryEvent(historyEntries));
         var actions = grades.stream().map(wordPlayListDomainMapper::toAction).toList();
         var updated = userWordDao.addGrades(actions);
         pinnedWordDao.addGrades(updated);

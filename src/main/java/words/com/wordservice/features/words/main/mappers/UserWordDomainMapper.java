@@ -3,8 +3,8 @@ package words.com.wordservice.features.words.main.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import words.com.wordservice.features.learninghistory.db.entities.LearningHistoryEntity;
-import words.com.wordservice.features.learninghistory.main.enums.LearningHistoryType;
+import words.com.wordservice.features.shared.main.enums.LearningHistoryType;
+import words.com.wordservice.features.shared.main.events.LearningHistoryEvent;
 import words.com.wordservice.features.shared.utils.IdGenerator;
 import words.com.wordservice.features.words.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.features.words.db.actions.UserWordUpsertAction;
@@ -73,37 +73,33 @@ public class UserWordDomainMapper {
                 .build();
     }
 
-    public LearningHistoryEntity toLearningHistoryEntity(UserWordEntity entity) {
-        return new LearningHistoryEntity(
-                idGenerator.generate(),
+    public LearningHistoryEvent.Entry toHistoryEntry(UserWordEntity entity) {
+        return new LearningHistoryEvent.Entry(
                 entity.getUserId(),
                 entity.getWord().getId(),
-                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
-                0
+                0,
+                OffsetDateTime.now(ZoneId.of("UTC"))
         );
     }
 
-    public LearningHistoryEntity toLearningHistoryEntity(UserWordCreateDto model) {
-        return new LearningHistoryEntity(
-                idGenerator.generate(),
+    public LearningHistoryEvent.Entry toHistoryEntry(UserWordCreateDto model) {
+        return new LearningHistoryEvent.Entry(
                 model.userId(),
                 model.word().id(),
-                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
-                0
+                0,
+                OffsetDateTime.now(ZoneId.of("UTC"))
         );
     }
 
-    public LearningHistoryEntity toLearningHistoryEntity(UserWordLink model) {
-        return new LearningHistoryEntity(
-                idGenerator.generate(),
+    public LearningHistoryEvent.Entry toHistoryEntry(UserWordLink model) {
+        return new LearningHistoryEvent.Entry(
                 model.userId(),
                 model.wordId(),
-
-                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
-                0
+                0,
+                OffsetDateTime.now(ZoneId.of("UTC"))
         );
     }
 

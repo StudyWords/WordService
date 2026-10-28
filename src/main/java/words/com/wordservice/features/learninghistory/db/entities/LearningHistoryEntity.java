@@ -2,7 +2,7 @@ package words.com.wordservice.features.learninghistory.db.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import words.com.wordservice.features.learninghistory.main.enums.LearningHistoryType;
+import words.com.wordservice.features.shared.main.enums.LearningHistoryType;
 
 import java.time.OffsetDateTime;
 
