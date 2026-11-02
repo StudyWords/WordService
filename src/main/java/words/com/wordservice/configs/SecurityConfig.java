@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import words.backend.authmodule.domain.factories.JwtAuthOncePerRequestFilterFactory;
-import words.backend.authmodule.net.models.Role;
+import ua.nure.words.gateway.userctx.Role;
+import ua.nure.words.gateway.userctx.UserContextFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +19,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           JwtAuthOncePerRequestFilterFactory filterFactory
+                                           UserContextFilter userContextFilter
     ) throws Exception {
 
         http.httpBasic(HttpBasicConfigurer::disable)
@@ -41,8 +41,8 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest()
                                 .authenticated())
-                .addFilterBefore(filterFactory.create(),
-                        UsernamePasswordAuthenticationFilter.class);
+                // the gateway validates the JWT and signs the user headers; the filter must sit inside the chain
+                .addFilterBefore(userContextFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

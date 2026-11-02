@@ -1,7 +1,7 @@
 package words.com.wordservice.features.playlists.api.mappers;
 
 import org.springframework.stereotype.Component;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.playlists.api.requests.PinPlayRequest;
 import words.com.wordservice.features.playlists.main.models.PlayListWord;
 import words.com.wordservice.features.playlists.main.models.UserPinIds;

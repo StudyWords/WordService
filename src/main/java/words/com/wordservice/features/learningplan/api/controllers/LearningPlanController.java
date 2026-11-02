@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.learningplan.api.mappers.LearningPlanRequestMapper;
 import words.com.wordservice.features.learningplan.api.mappers.LearningPlanRespondMapper;
 import words.com.wordservice.features.learningplan.api.requests.LearningPlanRequest;
@@ -30,7 +30,7 @@ public class LearningPlanController {
     @Nullable
     @GetMapping
     LearningPlanDetailsRespond getLearningPlan(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestParam(defaultValue = "0") @Min(-840) @Max(840) int utcOffsetMinutes) {
         return findLearningPlanDetailsUseCase.execute(user.id(), utcOffsetMinutes)
                 .map(respondMapper::toRespond)
@@ -40,7 +40,7 @@ public class LearningPlanController {
     @PostMapping
     @Validated
     LearningPlanRespond createLearningPlan(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid LearningPlanRequest request) {
         var model = requestMapper.toModel(request, user.id());
         var result = learningPlanService.create(model);
@@ -51,7 +51,7 @@ public class LearningPlanController {
     @PutMapping
     @Validated
     void update(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid LearningPlanRequest request) {
         var model = requestMapper.toModel(request, user.id());
         learningPlanService.update(model);

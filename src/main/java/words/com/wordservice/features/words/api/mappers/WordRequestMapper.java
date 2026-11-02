@@ -2,8 +2,8 @@ package words.com.wordservice.features.words.api.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import words.backend.authmodule.net.models.Role;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.Role;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.shared.utils.DecodeUtils;
 import words.com.wordservice.features.shared.utils.IdGenerator;
 import words.com.wordservice.features.shared.utils.ModelUtils;

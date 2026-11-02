@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.words.api.mappers.WordRequestMapper;
 import words.com.wordservice.features.words.api.mappers.WordRespondMapper;
 import words.com.wordservice.features.words.api.requests.WordCreateRequest;
@@ -27,14 +27,14 @@ public class WordController {
     private final WordService wordService;
 
     @GetMapping
-    PagedModel<WordRespond> get(@AuthenticationPrincipal User user, @Valid @ModelAttribute WordGetRequest request){
+    PagedModel<WordRespond> get(@AuthenticationPrincipal(expression = "user") User user, @Valid @ModelAttribute WordGetRequest request) {
         var filter = requestMapper.toFilter(user, request);
         var paged = wordService.findBy(filter).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 
     @PostMapping
-    void save(@AuthenticationPrincipal User user, @RequestBody @Valid @NotEmpty Set<WordCreateRequest> words) {
+    void save(@AuthenticationPrincipal(expression = "user") User user, @RequestBody @Valid @NotEmpty Set<WordCreateRequest> words) {
         wordService.save(requestMapper.toWordDrafts(user, words));
     }
 

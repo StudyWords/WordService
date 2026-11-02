@@ -7,15 +7,10 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import words.backend.authmodule.configs.WordSecurityMainConfig;
 import words.com.wordservice.configs.props.AppProps;
 
 @Configuration
 @EnableConfigurationProperties(AppProps.class)
-@Import({
-        WordSecurityMainConfig.class
-})
 public class MainConfig {
 
     @Bean

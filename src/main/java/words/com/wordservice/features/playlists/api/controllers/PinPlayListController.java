@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.playlists.main.models.PinPlayListDto;
 import words.com.wordservice.features.playlists.main.models.UnPinPlayListDto;
 import words.com.wordservice.features.playlists.main.usecases.PinPlayListUseCase;
@@ -24,7 +24,7 @@ public class PinPlayListController {
 
     @PatchMapping("/pin")
     public void pinPlayList(
-            @AuthenticationPrincipal
+            @AuthenticationPrincipal(expression = "user")
             User user,
             @Valid
             @NotBlank(message = "Play list id required")
@@ -36,7 +36,7 @@ public class PinPlayListController {
 
     @PatchMapping("/unpin")
     public void unpinPlayList(
-            @AuthenticationPrincipal
+            @AuthenticationPrincipal(expression = "user")
             User user,
             @Valid
             @NotBlank(message = "Play list id required")

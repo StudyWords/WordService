@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.words.api.mappers.UserWordRequestMapper;
 import words.com.wordservice.features.words.api.mappers.UserWordRespondMapper;
 import words.com.wordservice.features.words.api.requests.*;
@@ -26,29 +26,29 @@ public class UserWordController {
 
 
     @GetMapping
-    public PagedModel<UserWordRespond> getAll(@AuthenticationPrincipal User user, @ModelAttribute UserWordFilterRequest filter){
+    public PagedModel<UserWordRespond> getAll(@AuthenticationPrincipal(expression = "user") User user, @ModelAttribute UserWordFilterRequest filter) {
         var filterModel = requestMapper.toFilter(user, filter);
         var paged = userWordService.findBy(filterModel).map(respondMapper::toRespond);
         return new PagedModel<>(paged);
     }
 
     @PostMapping
-    public void create(@AuthenticationPrincipal User user, @RequestBody @Valid Set<UserWordCreateRequest> words) {
+    public void create(@AuthenticationPrincipal(expression = "user") User user, @RequestBody @Valid Set<UserWordCreateRequest> words) {
         userWordService.save(requestMapper.toCreateDtos(user, words));
     }
 
     @PostMapping("pin")
-    public List<UserWordRespond> savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<UserWordPinRequest> requests) {
+    public List<UserWordRespond> savePin(@AuthenticationPrincipal(expression = "user") User user, @RequestBody @Valid Set<UserWordPinRequest> requests) {
         return respondMapper.toResponds(userWordService.link(requestMapper.toLinks(user, requests)));
     }
 
     @PostMapping("delete")
-    public void delete(@AuthenticationPrincipal User user, @RequestBody @Valid List<UserWordDeleteRequest> requests) {
+    public void delete(@AuthenticationPrincipal(expression = "user") User user, @RequestBody @Valid List<UserWordDeleteRequest> requests) {
         userWordService.delete(requestMapper.toDeleteDtos(user.id(), requests));
     }
 
     @PutMapping
-    public void update(@AuthenticationPrincipal User user, @RequestBody @Valid UserWordEditRequest request) {
+    public void update(@AuthenticationPrincipal(expression = "user") User user, @RequestBody @Valid UserWordEditRequest request) {
         var model = requestMapper.toModel(user, request);
         userWordService.update(model);
     }

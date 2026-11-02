@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.playlists.api.mappers.PlayListRequestMapper;
 import words.com.wordservice.features.playlists.api.mappers.PlayListRespondMapper;
 import words.com.wordservice.features.playlists.api.requests.*;
@@ -32,7 +32,7 @@ public class PlayListController {
 
     @GetMapping
     public PagedModel<PlayListRespond> getPlayLists(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @Valid PlayListGetRequest request
     ) {
         var filter = requestMapper.toFilter(user, request);
@@ -55,7 +55,7 @@ public class PlayListController {
 
     @GetMapping("/count")
     public PagedModel<PlayListCountRespond> getCountPlayLists(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @Valid PlayListCountGetRequest request
     ) {
         var filter = requestMapper.toCountFilter(user, request);
@@ -67,7 +67,7 @@ public class PlayListController {
 
     @GetMapping("/count/public")
     public PagedModel<PublicPlayListCountRespond> getCountPlayLists(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @Valid PublicPlayListCountGetRequest request
     ) {
         var filter = requestMapper.toPublicFilter(request);
@@ -79,7 +79,7 @@ public class PlayListController {
 
     @GetMapping("/random")
     public ResponseEntity<PlayListCountRespond> getRandomPlayList(
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal(expression = "user") User user
     ) {
         return wordPlayListService.findRandom(user.id())
                 .map(respondMapper::toRespond)
@@ -89,14 +89,14 @@ public class PlayListController {
 
     @GetMapping("/assigned")
     public List<AssignedPlaylistRespond> getAssignedPlayLists(
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal(expression = "user") User user
     ) {
         return respondMapper.toAssignedResponds(wordPlayListService.findAssigned(user.id()));
     }
 
     @PostMapping("/assign")
     public List<PlaylistIdRespond> assignPlayLists(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid AssignPlayListsRequest request) {
         return respondMapper.toIdResponds(wordPlayListService.assign(request.playListIds(), user.id()));
     }
@@ -105,27 +105,27 @@ public class PlayListController {
 
     @PostMapping
     public void save(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid @NotEmpty List<PlayListCreateRequest> playLists) {
         wordPlayListService.save(requestMapper.toCreateTitles(user, playLists));
     }
 
     @PutMapping
     public void update(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid List<PlayListUpdateRequest> playLists) {
         wordPlayListService.update(requestMapper.toUpdateTitles(user, playLists));
     }
 
     @PutMapping("/grades")
     public void updateGrades(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal(expression = "user") User user,
             @RequestBody @Valid List<PlayListGradeRequest> grades) {
         wordPlayListService.updateGrades(requestMapper.toPlayListGrades(user, grades));
     }
 
     @DeleteMapping("/delete")
-    public void delete(@AuthenticationPrincipal User user, @RequestParam List<String> ids) {
+    public void delete(@AuthenticationPrincipal(expression = "user") User user, @RequestParam List<String> ids) {
         wordPlayListService.delete(requestMapper.toUserPlayLists(user, ids));
     }
 }

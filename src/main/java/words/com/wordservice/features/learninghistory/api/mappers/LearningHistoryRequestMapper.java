@@ -1,8 +1,8 @@
 package words.com.wordservice.features.learninghistory.api.mappers;
 
 import org.springframework.stereotype.Component;
-import words.backend.authmodule.net.models.Role;
-import words.backend.authmodule.net.models.User;
+import ua.nure.words.gateway.userctx.Role;
+import ua.nure.words.gateway.userctx.User;
 import words.com.wordservice.features.learninghistory.api.requests.LearningHistoryFilterRequest;
 import words.com.wordservice.features.learninghistory.api.requests.StatisticsLearningHistoryFilterRequest;
 import words.com.wordservice.features.learninghistory.main.models.LearningHistoryFilter;

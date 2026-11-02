@@ -74,10 +74,13 @@
             <version>2.8.11</version>
         </dependency>
         <dependency>
-            <groupId>words.backend</groupId>
-            <artifactId>AuthModule</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>ua.nure.words.gateway</groupId>
+            <artifactId>user-context-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 
