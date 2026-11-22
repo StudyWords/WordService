@@ -16,6 +16,8 @@ public class LearningPlanRequestMapper {
                 request.nativeLang(),
                 request.learningLang(),
                 request.cefrs(),
+                request.zoneId(),
+                request.utcOffsetMinutes(),
                 OffsetDateTime.now(),
                 OffsetDateTime.now()
         );

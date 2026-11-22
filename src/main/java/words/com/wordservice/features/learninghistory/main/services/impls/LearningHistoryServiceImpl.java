@@ -17,8 +17,8 @@ import words.com.wordservice.features.words.db.entities.UserWordEntity;
 import words.com.wordservice.features.words.db.searches.Operations;
 import words.com.wordservice.features.words.db.searches.UserWordSearch;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class LearningHistoryServiceImpl implements LearningHistoryService {
-    private static final int SECONDS_IN_MINUTE = 60;
-
     private final LearningHistoryDomainMapper learningHistoryMapper;
     private final LearningHistoryDao learningHistoryDao;
     private final UserWordDao userWordDao;
@@ -63,14 +61,15 @@ class LearningHistoryServiceImpl implements LearningHistoryService {
     }
 
     @Override
-    public LearningProgress findProgress(String userId, Set<CEFR> cefrs, int utcOffsetMinutes) {
-        var offset = ZoneOffset.ofTotalSeconds(utcOffsetMinutes * SECONDS_IN_MINUTE);
-        var dayStart = OffsetDateTime.now(offset).toLocalDate().atStartOfDay().atOffset(offset);
+    public LearningProgress findProgress(String userId, Set<CEFR> cefrs, ZoneId zone) {
+        var today = LocalDate.now(zone);
+        var dayStart = today.atStartOfDay(zone).toOffsetDateTime();
+        var dayEnd = today.plusDays(1).atStartOfDay(zone).toOffsetDateTime();
         var search = LearningProgressSearch.builder()
                 .userId(userId)
                 .cefrs(cefrs)
                 .dayStart(dayStart)
-                .dayEnd(dayStart.plusDays(1))
+                .dayEnd(dayEnd)
                 .build();
         return learningHistoryMapper.toModel(learningHistoryDao.findProgress(search));
     }

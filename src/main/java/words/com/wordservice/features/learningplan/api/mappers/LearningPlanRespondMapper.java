@@ -38,7 +38,9 @@ public class LearningPlanRespondMapper {
                         progress.repeatedNewTodayByPlan(),
                         progress.repeatedTotal(),
                         progress.repeatedTotalByPlan()
-                )
+                ),
+                details.streak().dayStreak(),
+                details.streak().completedToday()
         );
     }
 }

@@ -18,6 +18,8 @@ public class LearningPlanDomainMapper {
                 model.nativeLang(),
                 model.learningLang(),
                 model.cefrs() == null ? new TreeSet<>() : new TreeSet<>(model.cefrs()),
+                model.zoneId(),
+                model.utcOffsetMinutes() == null ? 0 : model.utcOffsetMinutes(),
                 model.createdAt(),
                 OffsetDateTime.now()
         );
@@ -30,6 +32,8 @@ public class LearningPlanDomainMapper {
                 entity.getNativeLang(),
                 entity.getLearningLang(),
                 entity.getCefrs() == null ? Set.of() : entity.getCefrs(),
+                entity.getZoneId(),
+                entity.getUtcOffsetMinutes(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

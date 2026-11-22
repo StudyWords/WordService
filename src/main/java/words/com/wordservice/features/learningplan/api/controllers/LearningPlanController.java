@@ -31,8 +31,9 @@ public class LearningPlanController {
     @GetMapping
     LearningPlanDetailsRespond getLearningPlan(
             @AuthenticationPrincipal(expression = "user") User user,
-            @RequestParam(defaultValue = "0") @Min(-840) @Max(840) int utcOffsetMinutes) {
-        return findLearningPlanDetailsUseCase.execute(user.id(), utcOffsetMinutes)
+            @RequestParam(required = false) @Nullable String zoneId,
+            @RequestParam(required = false) @Min(-840) @Max(840) @Nullable Integer utcOffsetMinutes) {
+        return findLearningPlanDetailsUseCase.execute(user.id(), zoneId, utcOffsetMinutes)
                 .map(respondMapper::toRespond)
                 .orElse(null);
     }

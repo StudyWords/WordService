@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import words.com.wordservice.features.shared.api.requests.LanguagesGetter;
 import words.com.wordservice.features.shared.api.valid.annotation.DifferentLanguage;
 import words.com.wordservice.features.shared.main.enums.CEFR;
@@ -21,7 +22,12 @@ public record LearningPlanRequest(
         @NotNull(message = "Learning language should not be null")
         Language learningLang,
         @NotEmpty(message = "CEFR levels should not be empty")
-        Set<CEFR> cefrs
+        Set<CEFR> cefrs,
+        @Size(max = 64, message = "Zone id should be shorter than 65 characters")
+        String zoneId,
+        @Min(value = -840, message = "UTC offset should be at least -840 minutes")
+        @Max(value = 840, message = "UTC offset should be at most 840 minutes")
+        Integer utcOffsetMinutes
 ) implements LanguagesGetter {
     @Override
     public Language getLang() {

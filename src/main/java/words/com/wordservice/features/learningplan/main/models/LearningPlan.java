@@ -1,5 +1,6 @@
 package words.com.wordservice.features.learningplan.main.models;
 
+import org.springframework.lang.Nullable;
 import words.com.wordservice.features.shared.main.enums.CEFR;
 import words.com.wordservice.features.shared.main.enums.Language;
 
@@ -12,6 +13,8 @@ public record LearningPlan(
         Language nativeLang,
         Language learningLang,
         Set<CEFR> cefrs,
+        @Nullable String zoneId,
+        @Nullable Integer utcOffsetMinutes,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt
 ) {

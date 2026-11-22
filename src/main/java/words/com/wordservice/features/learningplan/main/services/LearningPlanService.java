@@ -1,6 +1,7 @@
 package words.com.wordservice.features.learningplan.main.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.lang.Nullable;
 import words.com.wordservice.features.learningplan.main.models.LearningPlan;
 import words.com.wordservice.features.learningplan.main.models.LearningPlanFilter;
 
@@ -20,4 +21,6 @@ public interface LearningPlanService {
     LearningPlan create(LearningPlan learningPlan);
 
     void update(LearningPlan learningPlan);
+
+    void updateTimeZone(String userId, @Nullable String zoneId, @Nullable Integer utcOffsetMinutes);
 }

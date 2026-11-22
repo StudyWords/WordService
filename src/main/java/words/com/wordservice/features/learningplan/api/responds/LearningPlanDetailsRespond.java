@@ -13,6 +13,8 @@ public record LearningPlanDetailsRespond(
         Set<CEFR> cefrs,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt,
-        LearningProgressRespond progress
+        LearningProgressRespond progress,
+        int dayStreak,
+        boolean completedToday
 ) {
 }
