@@ -1,5 +1,6 @@
 package words.com.wordservice.features.learningplan.api.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,11 +30,15 @@ public record LearningPlanRequest(
         @Max(value = 840, message = "UTC offset should be at most 840 minutes")
         Integer utcOffsetMinutes
 ) implements LanguagesGetter {
+    // Нужны только валидатору @DifferentLanguage; @JsonIgnore убирает их из JSON/Swagger,
+    // иначе в схеме появляются дублирующие поля lang и translateLang.
+    @JsonIgnore
     @Override
     public Language getLang() {
         return nativeLang;
     }
 
+    @JsonIgnore
     @Override
     public Language getTranslateLang() {
         return learningLang;
